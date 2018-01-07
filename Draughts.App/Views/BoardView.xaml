@@ -33,6 +33,21 @@
                                                                          RelativeSource={RelativeSource AncestorType=UserControl}}"  />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding HasPeace}" Value="True"/>
+                                            <Condition Binding="{Binding IsWhite}" Value="False"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <MultiDataTrigger.Setters>
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </MultiDataTrigger.Setters>
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
                         <Image Width="1" 
                                Height="1" 
                                Style="{StaticResource ChessPieceStyle}" />
@@ -42,6 +57,9 @@
                         <Border BorderBrush="#7F48D4" 
                                 BorderThickness="0.03" 
                                 Visibility="{Binding IsAvailableMove, Converter={StaticResource BoolToVis}}"/>
+                        <Border BorderBrush="#D4486C" 
+                                BorderThickness="0.03" 
+                                Visibility="{Binding IsJumpPath, Converter={StaticResource BoolToVis}}"/>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

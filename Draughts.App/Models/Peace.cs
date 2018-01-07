@@ -12,6 +12,13 @@ namespace Draughts.App.Models
         private bool _isAvailableMove;
         private bool _isJumpPath;
 
+        public Peace(Position position, bool isWhite = false, bool hasPeace = false)
+        {
+            IsWhite = isWhite;
+            Position = position;
+            HasPeace = hasPeace;
+        }
+
         public Position Position
         {
             get => _position;

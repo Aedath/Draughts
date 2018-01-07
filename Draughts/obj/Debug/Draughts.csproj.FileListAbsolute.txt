@@ -1,0 +1,9 @@
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts\bin\Debug\Draughts.exe.config
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts\bin\Debug\Draughts.exe
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts\bin\Debug\Draughts.pdb
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts\bin\Debug\Draughts.Logic.dll
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts\bin\Debug\Draughts.Logic.pdb
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts\obj\Debug\Draughts.csprojResolveAssemblyReference.cache
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts\obj\Debug\Draughts.csproj.CoreCompileInputs.cache
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts\obj\Debug\Draughts.exe
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts\obj\Debug\Draughts.pdb

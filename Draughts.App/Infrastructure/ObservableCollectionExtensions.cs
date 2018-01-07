@@ -56,5 +56,10 @@ namespace Draughts.App.Infrastructure
         {
             return Exists(board, x, y) && GetPeace(board, x, y).HasPeace;
         }
+
+        public static bool HasOpposingPeace(this ObservableCollection<Peace> board, int x, int y, bool white)
+        {
+            return Exists(board, x, y) && GetPeace(board, x, y).HasPeace && GetPeace(board, x, y).IsWhite == white;
+        }
     }
 }
