@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\App.xaml
-10-1544925097
+10-1617435637
 
-16-1932333539
-76977631315
-Controls\BoardGrid.xaml;Shell.xaml;Themes\MetroDark\MetroDark.MSControls.Core.Implicit.xaml;Themes\MetroDark\MetroDark.MSControls.Toolkit.Implicit.xaml;Themes\MetroDark\Styles.Shared.xaml;Themes\MetroDark\Styles.WPF.xaml;Themes\MetroDark\Styles.xaml;Themes\MetroDark\Theme.Colors.xaml;Views\BoardView.xaml;Views\LoginView.xaml;
+17-1863094978
+76831583850
+Controls\BoardGrid.xaml;Shell.xaml;Themes\MetroDark\MetroDark.MSControls.Core.Implicit.xaml;Themes\MetroDark\MetroDark.MSControls.Toolkit.Implicit.xaml;Themes\MetroDark\Styles.Shared.xaml;Themes\MetroDark\Styles.WPF.xaml;Themes\MetroDark\Styles.xaml;Themes\MetroDark\Theme.Colors.xaml;Views\BoardView.xaml;Views\GameView.xaml;
 
 False
 

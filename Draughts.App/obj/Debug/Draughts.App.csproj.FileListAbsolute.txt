@@ -6,7 +6,6 @@ C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\D
 C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\Debug\Themes\MetroDark\Theme.Colors.baml
 C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\Debug\App.baml
 C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\Debug\Shell.g.cs
-C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\Debug\Views\LoginView.g.cs
 C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\Debug\App.g.cs
 C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\Debug\Draughts.App_MarkupCompile.cache
 C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\Debug\Draughts.App_MarkupCompile.lref
@@ -30,7 +29,6 @@ C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\bin\D
 C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\bin\Debug\Prism.Autofac.Wpf.dll.config
 C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\bin\Debug\Prism.Wpf.xml
 C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\Debug\Themes\MetroDark\MetroDark.MSControls.Toolkit.Implicit.baml
-C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\Debug\Views\LoginView.baml
 C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\Debug\Draughts.App.g.resources
 C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\Debug\Draughts.App.Properties.Resources.resources
 C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\Debug\Draughts.App.csproj.GenerateResource.Cache
@@ -42,5 +40,7 @@ C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\D
 C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\Debug\Views\BoardView.g.cs
 C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\Debug\Controls\BoardGrid.baml
 C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\Debug\Views\BoardView.baml
-C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\bin\Debug\Draughts.Logic.dll
-C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\bin\Debug\Draughts.Logic.pdb
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\Debug\Views\GameView.g.cs
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\obj\Debug\Views\GameView.baml
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\bin\Debug\Draughs.NeuralNetwork.dll
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughts.App\bin\Debug\Draughs.NeuralNetwork.pdb

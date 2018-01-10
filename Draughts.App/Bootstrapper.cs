@@ -26,7 +26,8 @@ namespace Draughts.App
 
             var regionManager = Container.Resolve<IRegionManager>();
 
-            regionManager.RegisterViewWithRegion("MainRegion", () => Container.Resolve<BoardView>());
+            regionManager.RegisterViewWithRegion("MainRegion", () => Container.Resolve<GameView>());
+            regionManager.RegisterViewWithRegion("BoardRegion", () => Container.Resolve<BoardView>());
         }
 
         protected override void ConfigureContainerBuilder(ContainerBuilder builder)

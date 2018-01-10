@@ -26,7 +26,7 @@
                 <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding IsQueen}" Value="false"/>
                     <Condition Binding="{Binding IsWhite}" Value="true"/>
-                    <Condition Binding="{Binding HasPeace}" Value="true"/>
+                    <Condition Binding="{Binding HasPiece}" Value="true"/>
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter Property="Image.Source" Value="pack://application:,,,/Resources/Checkers/White.jpg" />
@@ -37,7 +37,7 @@
                 <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding IsQueen}" Value="true"/>
                     <Condition Binding="{Binding IsWhite}" Value="true"/>
-                    <Condition Binding="{Binding HasPeace}" Value="true"/>
+                    <Condition Binding="{Binding HasPiece}" Value="true"/>
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter Property="Image.Source" Value="pack://application:,,,/Resources/Checkers/WhiteQueen.png" />
@@ -47,7 +47,7 @@
                 <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding IsQueen}" Value="false"/>
                     <Condition Binding="{Binding IsWhite}" Value="false"/>
-                    <Condition Binding="{Binding HasPeace}" Value="true"/>
+                    <Condition Binding="{Binding HasPiece}" Value="true"/>
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter Property="Image.Source" Value="pack://application:,,,/Resources/Checkers/Black.png" />
@@ -58,14 +58,14 @@
                 <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding IsQueen}" Value="true"/>
                     <Condition Binding="{Binding IsWhite}" Value="false"/>
-                    <Condition Binding="{Binding HasPeace}" Value="true"/>
+                    <Condition Binding="{Binding HasPiece}" Value="true"/>
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter Property="Image.Source" Value="pack://application:,,,/Resources/Checkers/BlackQueen.png" />
                 </MultiDataTrigger.Setters>
             </MultiDataTrigger>
 
-            <DataTrigger Binding="{Binding HasPeace}" Value="false">
+            <DataTrigger Binding="{Binding HasPiece}" Value="false">
                 <Setter Property="Image.Source" Value="pack://application:,,,/Resources/Checkers/Empty.png" />
             </DataTrigger>
         </Style.Triggers>

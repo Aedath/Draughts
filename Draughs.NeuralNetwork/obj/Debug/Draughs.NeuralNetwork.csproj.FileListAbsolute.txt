@@ -1,0 +1,6 @@
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughs.NeuralNetwork\bin\Debug\Draughs.NeuralNetwork.dll
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughs.NeuralNetwork\bin\Debug\Draughs.NeuralNetwork.pdb
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughs.NeuralNetwork\obj\Debug\Draughs.NeuralNetwork.csprojResolveAssemblyReference.cache
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughs.NeuralNetwork\obj\Debug\Draughs.NeuralNetwork.csproj.CoreCompileInputs.cache
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughs.NeuralNetwork\obj\Debug\Draughs.NeuralNetwork.dll
+C:\Users\edvar\documents\visual studio 2017\Projects\Draughts\Draughs.NeuralNetwork\obj\Debug\Draughs.NeuralNetwork.pdb
