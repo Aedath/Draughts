@@ -33,15 +33,36 @@
                                                                          RelativeSource={RelativeSource AncestorType=UserControl}}"  />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding HasPiece}" Value="True"/>
+                                            <Condition Binding="{Binding IsWhite}" Value="False"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <MultiDataTrigger.Setters>
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </MultiDataTrigger.Setters>
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
                         <Image Width="1" 
                                Height="1" 
                                Style="{StaticResource ChessPieceStyle}" />
                         <Border BorderBrush="Aquamarine" 
-                                BorderThickness="0.03" 
+                                BorderThickness="0.04" 
                                 Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}"/>
+                        <Border BorderBrush="Aquamarine" 
+                                BorderThickness="0.04" 
+                                Visibility="{Binding CanSelect, Converter={StaticResource BoolToVis}}"/>
                         <Border BorderBrush="#7F48D4" 
-                                BorderThickness="0.03" 
+                                BorderThickness="0.04" 
                                 Visibility="{Binding IsAvailableMove, Converter={StaticResource BoolToVis}}"/>
+                        <Border BorderBrush="#D02A2E" 
+                                BorderThickness="0.04" 
+                                Visibility="{Binding IsJumpPath, Converter={StaticResource BoolToVis}}"/>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

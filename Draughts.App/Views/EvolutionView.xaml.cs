@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Draughts.App.Views
 {
     /// <summary>
-    /// Interaction logic for LoginView.xaml
+    /// Interaction logic for EvolutionView.xaml
     /// </summary>
-    public partial class LoginView : UserControl
+    public partial class EvolutionView : UserControl
     {
-        public LoginView()
+        public EvolutionView()
         {
             InitializeComponent();
         }

@@ -2,15 +2,24 @@
 
 namespace Draughts.App.Models
 {
-    internal class Peace : BindableBase
+    internal class Piece : BindableBase
     {
         private Position _position;
         private bool _isQueen;
         private bool _isWhite;
-        private bool _hasPeace;
+        private bool _hasPiece;
         private bool _isSelected;
         private bool _isAvailableMove;
         private bool _isJumpPath;
+        private bool _canSelect;
+
+        public Piece(Position position, bool isWhite = false, bool hasPiece = false, bool isQueen = false)
+        {
+            IsWhite = isWhite;
+            Position = position;
+            HasPiece = hasPiece;
+            IsQueen = isQueen;
+        }
 
         public Position Position
         {
@@ -36,10 +45,10 @@ namespace Draughts.App.Models
             set => SetProperty(ref _isWhite, value);
         }
 
-        public bool HasPeace
+        public bool HasPiece
         {
-            get => _hasPeace;
-            set => SetProperty(ref _hasPeace, value);
+            get => _hasPiece;
+            set => SetProperty(ref _hasPiece, value);
         }
 
         public bool IsAvailableMove
@@ -52,6 +61,11 @@ namespace Draughts.App.Models
         {
             get => _isJumpPath;
             set => SetProperty(ref _isJumpPath, value);
+        }
+        public bool CanSelect
+        {
+            get => _canSelect;
+            set => SetProperty(ref _canSelect, value);
         }
     }
 }

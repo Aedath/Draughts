@@ -22,11 +22,15 @@ namespace Draughts.App
             base.InitializeShell();
 
             Application.Current.MainWindow = (Window)Shell;
-            Application.Current.MainWindow.Show();
+            if (Application.Current.MainWindow != null)
+            {
+                Application.Current.MainWindow.Show();
+            }
 
             var regionManager = Container.Resolve<IRegionManager>();
 
-            regionManager.RegisterViewWithRegion("MainRegion", () => Container.Resolve<BoardView>());
+            regionManager.RegisterViewWithRegion("MainRegion", () => Container.Resolve<StartView>());
+            regionManager.RegisterViewWithRegion("BoardRegion", () => Container.Resolve<BoardView>());
         }
 
         protected override void ConfigureContainerBuilder(ContainerBuilder builder)

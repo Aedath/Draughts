@@ -66,9 +66,8 @@
   <!-- *********************************  TextBlock Style  ********************************* -->
   <Style x:Key="TextBlockStyle" TargetType="TextBlock">
     <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
-    <Setter Property="FontSize" Value="13.333" />
-    <Setter Property="FontFamily" Value="Segoe UI" />
-  </Style>
+        <Setter Property="FontSize" Value="13.333" />
+    </Style>
 
   <!-- *********************************  Label Style  ********************************* -->
   <Style x:Key="LabelStyle" TargetType="{x:Type Label}">

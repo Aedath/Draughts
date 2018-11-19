@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:regions="http://prismlibrary.com/"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Checkers" Height="1000" Width="1000">
+        Title="Checkers" Height="796" Width="1000">
     <Grid Background="{StaticResource Brush05}">
         <ContentControl regions:RegionManager.RegionName="MainRegion"/>
     </Grid>

@@ -85,16 +85,25 @@
       <DependentUpon>BoardGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\ObservableCollectionExtensions.cs" />
-    <Compile Include="Models\Peace.cs" />
+    <Compile Include="Models\Piece.cs" />
     <Compile Include="Models\Position.cs" />
+    <Compile Include="Models\TurnChangeEvent.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
-    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\EvolutionViewModel.cs" />
+    <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="ViewModels\StartViewModel.cs" />
     <Compile Include="Views\BoardView.xaml.cs">
       <DependentUpon>BoardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LoginView.xaml.cs">
-      <DependentUpon>LoginView.xaml</DependentUpon>
+    <Compile Include="Views\EvolutionView.xaml.cs">
+      <DependentUpon>EvolutionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GameView.xaml.cs">
+      <DependentUpon>GameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StartView.xaml.cs">
+      <DependentUpon>StartView.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\BoardGrid.xaml">
       <SubType>Designer</SubType>
@@ -142,7 +151,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LoginView.xaml">
+    <Page Include="Views\EvolutionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -186,9 +203,9 @@
     <Resource Include="Resources\Checkers\Black.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Draughts.Logic\Draughts.Logic.csproj">
-      <Project>{6D6AADED-E1EA-47B1-A83F-C61868607B0F}</Project>
-      <Name>Draughts.Logic</Name>
+    <ProjectReference Include="..\Draughs.NeuralNetwork\Draughs.NeuralNetwork.csproj">
+      <Project>{5D0FB757-1F9D-4BB5-B69B-D531EE0E0AEA}</Project>
+      <Name>Draughs.NeuralNetwork</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
