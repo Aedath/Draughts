@@ -102,6 +102,9 @@
     <Compile Include="Views\GameView.xaml.cs">
       <DependentUpon>GameView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\StartView.xaml.cs">
       <DependentUpon>StartView.xaml</DependentUpon>
     </Compile>
@@ -156,6 +159,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
