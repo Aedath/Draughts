@@ -10,6 +10,7 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Height="110" Background="Transparent">
+        <ProgressBar Foreground="{StaticResource Brush05}" Value="{Binding CurrentGeneration}" Maximum="5000"/>
         <Viewbox>
             <TextBlock Text="{Binding Text}"
                        Foreground="{StaticResource Brush01}" />

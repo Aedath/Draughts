@@ -196,7 +196,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Checkers\WhiteQueen.png" />
-    <Resource Include="Resources\Checkers\White.jpg" />
     <Resource Include="Resources\Checkers\BlackQueen.png" />
   </ItemGroup>
   <ItemGroup>
@@ -207,6 +206,9 @@
       <Project>{5D0FB757-1F9D-4BB5-B69B-D531EE0E0AEA}</Project>
       <Name>Draughs.NeuralNetwork</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Checkers\White.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

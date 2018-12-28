@@ -20,7 +20,7 @@ namespace Draughs.NeuralNetwork.Evolution
 
         internal IEnumerable<string> EvolvePlayer()
         {
-            for (var i = 0; i < _genePoolSize; i++)
+            for (var i = 0; i < _generations; i++)
             {
                 Console.WriteLine($"----------------------\n{i}");
                 var s = new Stopwatch();
@@ -29,7 +29,7 @@ namespace Draughs.NeuralNetwork.Evolution
                 BreedNextGeneration();
                 s.Stop();
                 var returnText =
-                    $"{i}/{_genePoolSize} generation evolved in {s.Elapsed:g}.\n ETA {GetEta(s.Elapsed, _genePoolSize - i):g}";
+                    $"{i + 1}/{_generations} generation evolved in {s.Elapsed:g}.\n ETA {GetEta(s.Elapsed, _generations - i - 1):g}";
                 yield return returnText;
             }
             EvaluateGenePool();
@@ -147,7 +147,7 @@ namespace Draughs.NeuralNetwork.Evolution
                     var gene1 = _genePool[i];
                     var gene2 = _genePool[j];
                     gameCounter++;
-                    Debug.WriteLine($"Games played: {gameCounter}. Gene combination: {i} {j}");
+                    //Debug.WriteLine($"Games played: {gameCounter}. Gene combination: {i} {j}");
                     Play(ref gene1, ref gene2);
                 });
             });
@@ -183,14 +183,6 @@ namespace Draughs.NeuralNetwork.Evolution
             var game = new Game(player1, player2);
             if (game.Draw)
             {
-                //for (var i = 0; i < 8; i++)
-                //{
-                //    for (var j = 0; j < 8; j++)
-                //    {
-                //        Debug.Write(game.Board[8 * i + j]);
-                //    }
-                //    Debug.WriteLine("");
-                //}
                 gene1.Score -= 1;
                 gene2.Score -= 1;
             }

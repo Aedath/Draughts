@@ -12,11 +12,12 @@ namespace Draughts.App.ViewModels
     {
         public EvolutionViewModel(IRegionManager regionManager)
         {
+            CurrentGeneration = 0;
             Task.Run(async () =>
             {
                 if (File.Exists("../Network.txt"))
                 {
-                    File.Copy("../Network.txt", $"../Network {DateTime.Now:yyyy MM dd}.txt");
+                    File.Copy("../Network.txt", $"../Network {DateTime.Now:yyyyMMddhhmmss}.txt");
                 }
                 File.Delete("../Network.txt");
                 Text = "Genetic evolution in progress...";
@@ -26,6 +27,7 @@ namespace Draughts.App.ViewModels
                     foreach (var evolutionText in service.Evolve())
                     {
                         Text = evolutionText;
+                        CurrentGeneration++;
                     };
                 });
                 Application.Current.Dispatcher.Invoke(() =>
@@ -33,6 +35,14 @@ namespace Draughts.App.ViewModels
                     regionManager.RequestNavigate("MainRegion", nameof(GameView));
                 });
             });
+        }
+
+        private int _currentGeneration = 0;
+
+        public int CurrentGeneration
+        {
+            get => _currentGeneration;
+            set => SetProperty(ref _currentGeneration, value);
         }
 
         private string _text = "...";

@@ -29,7 +29,7 @@
                     <Condition Binding="{Binding HasPiece}" Value="true"/>
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
-                    <Setter Property="Image.Source" Value="pack://application:,,,/Resources/Checkers/White.jpg" />
+                    <Setter Property="Image.Source" Value="pack://application:,,,/Resources/Checkers/White.png" />
                 </MultiDataTrigger.Setters>
             </MultiDataTrigger>
 

@@ -38,7 +38,7 @@
                         <Setter Property="Source" Value="pack://application:,,,/Resources/Checkers/Black.png"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsWhiteTurn}" Value="True">
-                                <Setter Property="Source" Value="pack://application:,,,/Resources/Checkers/White.jpg"/>
+                                <Setter Property="Source" Value="pack://application:,,,/Resources/Checkers/White.png"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -50,7 +50,7 @@
                     Grid.ColumnSpan="3"
                     Grid.RowSpan="2"
                     Margin="-10,30,-10,0"/>
-            <Image Source="pack://application:,,,/Resources/Checkers/White.jpg"
+            <Image Source="pack://application:,,,/Resources/Checkers/White.png"
                    Grid.Row="2"
                    VerticalAlignment="Bottom"/>
             <Image Source="pack://application:,,,/Resources/Checkers/Black.png"
