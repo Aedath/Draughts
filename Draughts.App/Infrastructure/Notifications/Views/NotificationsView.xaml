@@ -1,0 +1,135 @@
+﻿<UserControl x:Class="Draughts.App.Infrastructure.Notifications.Views.NotificationsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:infra="clr-namespace:Draughts.App.Infrastructure"
+             xmlns:messages="clr-namespace:Draughts.App.Infrastructure.Notifications.Messages"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid>
+            <ItemsControl HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                      Width="300" Padding="3,0,3,0" Margin="0,35,0,35"
+                      ItemsSource="{Binding Notifications}">
+                <ItemsControl.Resources>
+
+                    <DataTemplate DataType="{x:Type messages:ErrorNotification}">
+                        <materialDesign:Card Margin="0,3,0,3" Background="Crimson">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Margin="0,0,10,0"
+                               Text="{Binding Message}"
+                                           TextWrapping="WrapWithOverflow"
+                               Foreground="White"
+                               VerticalAlignment="Center"
+                                           FontWeight="Bold" />
+
+                                <Button Grid.Column="1" Grid.Row="0" Margin="0,0,0,0"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"
+                            CommandParameter="{Binding}"
+                            IsHitTestVisible="True" VerticalAlignment="Center">
+
+                                    <materialDesign:PackIcon Kind="Close" Height="25" Foreground="White" />
+                                </Button>
+                            </Grid>
+                        </materialDesign:Card>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type messages:SuccessNotification}">
+                        <materialDesign:Card Margin="0,3,0,3" Background="Green">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock  Margin="0,0,10,0"
+                               Text="{Binding Message}"
+                                           TextWrapping="WrapWithOverflow"
+                               Foreground="White"
+                               VerticalAlignment="Center"
+                                            FontWeight="Bold" />
+
+                                <Button Grid.Column="1" Grid.Row="0" Margin="0,0,0,0"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"
+                            CommandParameter="{Binding}"
+                            IsHitTestVisible="True" VerticalAlignment="Center">
+
+                                    <materialDesign:PackIcon Kind="Close" Height="25" Foreground="White" />
+                                </Button>
+                            </Grid>
+                        </materialDesign:Card>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type messages:InfoNotification}">
+                        <materialDesign:Card Margin="0,3,0,3" Background="DarkGray">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Margin="0,0,10,0"
+                               Text="{Binding Message}"
+                                           TextWrapping="WrapWithOverflow"
+                               Foreground="White"
+                               VerticalAlignment="Center"
+                                           FontWeight="Bold" />
+
+                                <Button Grid.Column="1" Margin="0,0,0,0"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"
+                            CommandParameter="{Binding}"
+                            IsHitTestVisible="True" VerticalAlignment="Center">
+
+                                    <materialDesign:PackIcon Kind="Close" Height="25" Foreground="White" />
+                                </Button>
+                            </Grid>
+                        </materialDesign:Card>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type messages:WarningNotification}">
+                        <materialDesign:Card Margin="0,3,0,3" Background="Orange">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Image Grid.Column="0" Grid.Row="0" Margin="0,0,10,0"
+                           Stretch="Uniform" Width="16"
+                           VerticalAlignment="Center" />
+
+                                <TextBlock Margin="0,0,10,0"
+                               Text="{Binding Message}"
+                                           TextWrapping="WrapWithOverflow"
+                               Foreground="White"
+                                           FontWeight="Bold"
+                               VerticalAlignment="Center" />
+
+                                <Button Grid.Column="1" Grid.Row="0" Margin="0,0,0,0"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"
+                            CommandParameter="{Binding}"
+                            IsHitTestVisible="True" VerticalAlignment="Center">
+
+                                    <materialDesign:PackIcon Kind="Close" Height="25" Foreground="White" />
+                                </Button>
+                            </Grid>
+                        </materialDesign:Card>
+                    </DataTemplate>
+                </ItemsControl.Resources>
+            </ItemsControl>
+        </Grid>
+    </Grid>
+</UserControl>

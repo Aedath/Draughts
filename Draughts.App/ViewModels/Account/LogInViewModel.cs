@@ -1,10 +1,11 @@
-﻿using System;
-using Prism.Commands;
-using System.Security;
-using System.Threading.Tasks;
+﻿using Draughts.App.Infrastructure.Notifications;
 using Draughts.App.Infrastructure.Services;
 using Draughts.App.Views;
+using Prism.Commands;
 using Prism.Regions;
+using System;
+using System.Security;
+using System.Threading.Tasks;
 
 namespace Draughts.App.ViewModels.Account
 {
@@ -12,8 +13,9 @@ namespace Draughts.App.ViewModels.Account
     {
         private readonly IAccessService _accessService;
         private readonly IRegionManager _regionManager;
+        private readonly INotificationService _notificationService;
 
-        public LogInViewModel(IAccessService accessService, IRegionManager regionManager)
+        public LogInViewModel(IAccessService accessService, IRegionManager regionManager, INotificationService notificationService)
         {
             SignInCommand = new DelegateCommand(async () => await SignIn(), CanSignIn)
                 .ObservesProperty(() => Username)
@@ -26,6 +28,7 @@ namespace Draughts.App.ViewModels.Account
             ClearCommand = new DelegateCommand(OnClear);
             _accessService = accessService;
             _regionManager = regionManager;
+            _notificationService = notificationService;
         }
 
         private string _username;
@@ -74,13 +77,17 @@ namespace Draughts.App.ViewModels.Account
             {
                 InProgress = true;
                 await _accessService.LogIn(Username, Password);
-                InProgress = false;
-                ClearCommand.Execute();
                 _regionManager.RequestNavigate("MainRegion", nameof(StartView));
+                _notificationService.NotifySuccess("Signed in");
             }
             catch (Exception ex)
             {
-                
+                _notificationService.NotifyError(ex.Message);
+            }
+            finally
+            {
+                ClearCommand.Execute();
+                InProgress = false;
             }
         }
 
@@ -94,11 +101,16 @@ namespace Draughts.App.ViewModels.Account
             {
                 InProgress = true;
                 await _accessService.Register(Username, Email, Password, ConfirmPassword);
-                InProgress = false;
-                ClearCommand.Execute();
+                _notificationService.NotifySuccess("Registration was successful. You can sign in now.");
             }
             catch (Exception ex)
             {
+                _notificationService.NotifyError(ex.Message);
+            }
+            finally
+            {
+                ClearCommand.Execute();
+                InProgress = false;
             }
         }
 

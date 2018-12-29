@@ -97,7 +97,14 @@
     <Compile Include="Controls\BoardGrid.xaml.cs">
       <DependentUpon>BoardGrid.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\NonZeroToVisibilityConverter.cs" />
     <Compile Include="Infrastructure\NotBoolConverter.cs" />
+    <Compile Include="Infrastructure\Notifications\Messages\Messages.cs" />
+    <Compile Include="Infrastructure\Notifications\NotificationService.cs" />
+    <Compile Include="Infrastructure\Notifications\ViewModels\NotificationsViewModel.cs" />
+    <Compile Include="Infrastructure\Notifications\Views\NotificationsView.xaml.cs">
+      <DependentUpon>NotificationsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Infrastructure\ObservableCollectionExtensions.cs" />
     <Compile Include="Infrastructure\PasswordBoxAssist.cs" />
     <Compile Include="Infrastructure\Services\AccessService.cs" />
@@ -126,6 +133,14 @@
       <DependentUpon>StartView.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\BoardGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Infrastructure\Notifications\Views\NotificationsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -210,5 +225,6 @@
   <ItemGroup>
     <Resource Include="Resources\Checkers\White.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

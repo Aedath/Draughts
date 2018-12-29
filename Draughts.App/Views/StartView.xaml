@@ -9,12 +9,9 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:StartViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <Button Command="{Binding StartNewGameCommand}">Start game</Button>
-        <Button Command="{Binding EvolveNetworkCommand}" Grid.Row="1">Evolve network</Button>
-    </Grid>
-</UserControl>
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Button Command="{Binding StartNewGameCommand}" Margin="20">Start game</Button>
+        <Button Command="{Binding EvolveNetworkCommand}" Margin="20">Evolve network</Button>
+        <Button Command="{Binding EvolveNetworkCommand}" Margin="20">View Statistics</Button>
+    </StackPanel>
+</UserControl> 

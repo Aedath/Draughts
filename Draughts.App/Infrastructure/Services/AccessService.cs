@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security;
@@ -11,9 +13,9 @@ namespace Draughts.App.Infrastructure.Services
     internal interface IAccessService
     {
         Task LogIn(string username, SecureString password);
+
         Task Register(string username, string email, SecureString password, SecureString confirmPassword);
     }
-
 
     internal class AccessService : IAccessService
     {
@@ -37,8 +39,12 @@ namespace Draughts.App.Infrastructure.Services
             };
             var content = new FormUrlEncodedContent(contentValues);
             var response = await _client.PostAsync("Token", content);
-            response.EnsureSuccessStatusCode();
             var result = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = JsonConvert.DeserializeObject(result, typeof(Error)) as Error;
+                throw new Exception(error?.ErrorDescription);
+            }
             _client.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", result);
         }
@@ -54,7 +60,19 @@ namespace Draughts.App.Infrastructure.Services
             };
             var content = new FormUrlEncodedContent(contentValues);
             var response = await _client.PostAsync("api/Account/Register", content);
-            response.EnsureSuccessStatusCode();
+            var result = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                var obj = new { message = "", ModelState = new Dictionary<string, string[]>() };
+                var x = JsonConvert.DeserializeAnonymousType(result, obj);
+                throw new Exception(string.Join("\n", x.ModelState.Values.SelectMany(y => y)));
+            }
+        }
+
+        private class Error
+        {
+            [JsonProperty("error_description")]
+            public string ErrorDescription { get; set; }
         }
     }
 }

@@ -17,8 +17,13 @@ namespace Draughts.App
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-
+            DispatcherUnhandledException += OnException;
             _bootstrapper.Run();
+        }
+
+        private void OnException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show(e.Exception.ToString());
         }
 
         protected override void OnExit(ExitEventArgs e)

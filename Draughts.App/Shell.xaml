@@ -18,6 +18,9 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Border BorderBrush="{DynamicResource PrimaryHueMidBrush}" BorderThickness="1">
-        <ContentControl regions:RegionManager.RegionName="MainRegion" />
+        <Grid>
+            <ContentControl regions:RegionManager.RegionName="MainRegion" />
+            <ContentControl regions:RegionManager.RegionName="NotificationRegion" Panel.ZIndex="1000" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+        </Grid>
     </Border>
 </Window>

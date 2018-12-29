@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Draughts.App.Infrastructure.Notifications.Views;
 using Draughts.App.Views;
 using Draughts.App.Views.Account;
 using Prism.Autofac;
@@ -32,6 +33,7 @@ namespace Draughts.App
 
             regionManager.RegisterViewWithRegion("MainRegion", () => Container.Resolve<LogInView>());
             regionManager.RegisterViewWithRegion("BoardRegion", () => Container.Resolve<BoardView>());
+            regionManager.RegisterViewWithRegion("NotificationRegion", () => Container.Resolve<NotificationsView>());
         }
 
         protected override void ConfigureContainerBuilder(ContainerBuilder builder)
