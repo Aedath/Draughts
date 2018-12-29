@@ -23,7 +23,7 @@ namespace Draughts.App
 
         private void RegisterServices(ContainerBuilder builder)
         {
-            //builder.RegisterType<Infrastructure.ScreenService>().As<Infrastructure.IScreenService>();
+            builder.RegisterType<Infrastructure.Services.AccessService>().As<Infrastructure.Services.IAccessService>().SingleInstance();
         }
     }
 }

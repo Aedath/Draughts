@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Draughts.App.Views;
+using Draughts.App.Views.Account;
 using Prism.Autofac;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -29,7 +30,7 @@ namespace Draughts.App
 
             var regionManager = Container.Resolve<IRegionManager>();
 
-            regionManager.RegisterViewWithRegion("MainRegion", () => Container.Resolve<StartView>());
+            regionManager.RegisterViewWithRegion("MainRegion", () => Container.Resolve<LogInView>());
             regionManager.RegisterViewWithRegion("BoardRegion", () => Container.Resolve<BoardView>());
         }
 
@@ -50,7 +51,7 @@ namespace Draughts.App
                 viewName = viewName.Replace(".Views.", ".ViewModels.");
                 var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
                 var suffix = viewName.EndsWith("View") ? "Model" : "ViewModel";
-                var viewModelName = String.Format(CultureInfo.InvariantCulture, "{0}{1}", viewName, suffix);
+                var viewModelName = string.Format(CultureInfo.InvariantCulture, "{0}{1}", viewName, suffix);
 
                 var assembly = viewType.GetTypeInfo().Assembly;
                 var type = assembly.GetType(viewModelName, true);
