@@ -7,17 +7,49 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:viewmodels="clr-namespace:Draughts.App.ViewModels"
     d:DataContext="{d:DesignInstance Type=viewmodels:EvolutionViewModel}"
+    xmlns:controls="clr-namespace:MaterialDesignExtensions.Controls;assembly=MaterialDesignExtensions"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     d:DesignHeight="300"
     d:DesignWidth="300"
+    xmlns:infra="clr-namespace:Draughts.App.Infrastructure"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
-    <Grid Height="110" Background="Transparent">
-        <ProgressBar
-            Height="100"
-            Maximum="5000"
-            Value="{Binding CurrentGeneration}" />
-        <Viewbox>
-            <TextBlock Text="{Binding Text}" />
-        </Viewbox>
+    <Grid VerticalAlignment="Center">
+        <Grid.Resources>
+            <infra:NotBoolConverter x:Key="NotBoolConverter"></infra:NotBoolConverter>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="20" IsEnabled="{Binding InProgress, Converter={StaticResource NotBoolConverter}}">
+            <GroupBox Header="Gene Pool Size" Margin="10" VerticalAlignment="Top">
+                <controls:OversizedNumberSpinner Min="2" Max="500" Value="{Binding GenePoolSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </GroupBox>
+            <GroupBox Header=" Generations  " Margin="10" VerticalAlignment="Top">
+                <controls:OversizedNumberSpinner Min="2" Max="500" Value="{Binding Generations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </GroupBox>
+        </StackPanel>
+        <materialDesign:Badged Grid.Row="1" HorizontalAlignment="Center" Badge="{Binding GenerationsLeft}">
+            <Button VerticalAlignment="Top"
+                    Style="{StaticResource MaterialDesignFloatingActionButton}"
+                    Command="{Binding ToggleProgressCommand}"
+                    materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding InProgress}"
+                    materialDesign:ButtonProgressAssist.Value="-1"
+                    materialDesign:ButtonProgressAssist.IsIndeterminate="True">
+                <materialDesign:PackIcon Height="30" Width="30">
+                    <materialDesign:PackIcon.Style>
+                        <Style TargetType="materialDesign:PackIcon">
+                            <Setter Property="Kind" Value="Play"></Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding InProgress}" Value="True">
+                                    <Setter Property="Kind" Value="Stop"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </materialDesign:PackIcon.Style>
+                </materialDesign:PackIcon>
+            </Button>
+        </materialDesign:Badged>
     </Grid>
 </UserControl>

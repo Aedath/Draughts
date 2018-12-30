@@ -3,7 +3,7 @@ using Prism.Regions;
 
 namespace Draughts.App
 {
-    internal class ViewModelBase : BindableBase, INavigationAware
+    internal class ViewModelBase : BindableBase, INavigationAware, IRegionMemberLifetime
     {
         public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
@@ -17,5 +17,7 @@ namespace Draughts.App
         public virtual void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }
+
+        public virtual bool KeepAlive => false;
     }
 }

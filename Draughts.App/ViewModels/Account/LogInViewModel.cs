@@ -77,8 +77,11 @@ namespace Draughts.App.ViewModels.Account
             {
                 InProgress = true;
                 await _accessService.LogIn(Username, Password);
+                var userInfo = await _accessService.GetUserInfo();
                 _regionManager.RequestNavigate("MainRegion", nameof(StartView));
                 _notificationService.NotifySuccess("Signed in");
+                _regionManager.RequestNavigate("HeaderRegion", nameof(HeaderView),
+                    new NavigationParameters { { "username", userInfo.Username } });
             }
             catch (Exception ex)
             {

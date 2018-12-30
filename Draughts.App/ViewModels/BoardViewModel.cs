@@ -20,7 +20,7 @@ namespace Draughts.App.ViewModels
             _eventAggregator = eventAggregator;
             SelectCommand = new DelegateCommand<Piece>(OnSelect);
             ChangeTurn();
-            _blackPlayer = new EvolutionService().GetPlayer();
+            _blackPlayer = EvolutionService.GetPlayer();
         }
 
         private void OnSelect(Piece currentPiece)

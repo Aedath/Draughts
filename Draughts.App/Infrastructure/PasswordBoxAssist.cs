@@ -20,7 +20,7 @@ namespace Draughts.App.Infrastructure
         private static void OnBoundPasswordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             PasswordBox box = d as PasswordBox;
-            
+
             if (d == null || !GetBindPassword(d))
             {
                 return;
@@ -61,24 +61,29 @@ namespace Draughts.App.Infrastructure
 
         internal static string ToUnsecuredString(this SecureString secureString)
         {
-            IntPtr bstrPtr = IntPtr.Zero;
-            if (secureString != null)
+            var bstrPtr = IntPtr.Zero;
+            if (secureString == null)
             {
-                if (secureString.Length != 0)
+                return string.Empty;
+            }
+
+            if (secureString.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            try
+            {
+                bstrPtr = Marshal.SecureStringToBSTR(secureString);
+                return Marshal.PtrToStringBSTR(bstrPtr);
+            }
+            finally
+            {
+                if (bstrPtr != IntPtr.Zero)
                 {
-                    try
-                    {
-                        bstrPtr = Marshal.SecureStringToBSTR(secureString);
-                        return Marshal.PtrToStringBSTR(bstrPtr);
-                    }
-                    finally
-                    {
-                        if (bstrPtr != IntPtr.Zero)
-                            Marshal.ZeroFreeBSTR(bstrPtr);
-                    }
+                    Marshal.ZeroFreeBSTR(bstrPtr);
                 }
             }
-            return string.Empty;
         }
 
         private static void HandlePasswordChanged(object sender, RoutedEventArgs e)

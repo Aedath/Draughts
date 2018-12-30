@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="Draughts.App.Views.HeaderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:controls="clr-namespace:MaterialDesignExtensions.Controls;assembly=MaterialDesignExtensions"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <controls:AppBar ShowShadow="True" Title="{Binding Username, StringFormat='Welcome, {0}'}">
+        <controls:AppBar.AppIcon>
+            <materialDesign:PackIcon Kind="Checkerboard" Height="25" Width="25" />
+        </controls:AppBar.AppIcon>
+        <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding HomeCommand}" ToolTip="Home">
+            <materialDesign:PackIcon Kind="Home" Foreground="White" Height="25" Width="25"></materialDesign:PackIcon>
+        </Button>
+        <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding LogoutCommand}" ToolTip="Log out">
+            <materialDesign:PackIcon Kind="Logout" Foreground="White" Height="25" Width="25"></materialDesign:PackIcon>
+        </Button>
+    </controls:AppBar>
+</UserControl>

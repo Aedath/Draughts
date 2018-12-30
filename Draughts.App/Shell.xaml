@@ -19,8 +19,13 @@
     mc:Ignorable="d">
     <Border BorderBrush="{DynamicResource PrimaryHueMidBrush}" BorderThickness="1">
         <Grid>
-            <ContentControl regions:RegionManager.RegionName="MainRegion" />
-            <ContentControl regions:RegionManager.RegionName="NotificationRegion" Panel.ZIndex="1000" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <ContentControl regions:RegionManager.RegionName="HeaderRegion" VerticalAlignment="Top" HorizontalAlignment="Stretch"></ContentControl>
+            <ContentControl Grid.Row="1" regions:RegionManager.RegionName="MainRegion" />
+            <ContentControl Grid.Row="1" regions:RegionManager.RegionName="NotificationRegion" Panel.ZIndex="1000" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
         </Grid>
     </Border>
 </Window>

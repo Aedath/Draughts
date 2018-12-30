@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="Draughts.App.Views.StatisticsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewmodels="clr-namespace:Draughts.App.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:StatisticsViewModel}"
+             mc:Ignorable="d">
+    <Grid>
+        <DataGrid HorizontalAlignment="Center" Width="300" AutoGenerateColumns="False" ItemsSource="{Binding Statistics}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Generation" Width="*" Binding="{Binding Generation}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Wins" Width="*" Binding="{Binding Wins}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Losses" Width="*" Binding="{Binding Losses}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

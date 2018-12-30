@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Draughts.Access.Models
 {
@@ -32,6 +31,7 @@ namespace Draughts.Access.Models
         public bool HasRegistered { get; set; }
 
         public string LoginProvider { get; set; }
+        public string Username { get; set; }
     }
 
     public class UserLoginInfoViewModel

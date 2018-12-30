@@ -12,6 +12,6 @@
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <Button Command="{Binding StartNewGameCommand}" Margin="20">Start game</Button>
         <Button Command="{Binding EvolveNetworkCommand}" Margin="20">Evolve network</Button>
-        <Button Command="{Binding EvolveNetworkCommand}" Margin="20">View Statistics</Button>
+        <Button Command="{Binding StatisticsCommand}" Margin="20">View Statistics</Button>
     </StackPanel>
 </UserControl> 
