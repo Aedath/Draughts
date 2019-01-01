@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using Autofac;
+using Draughts.App.Infrastructure.Notifications;
+using System;
+using System.Windows;
 
 namespace Draughts.App
 {
@@ -18,12 +21,20 @@ namespace Draughts.App
         {
             base.OnStartup(e);
             DispatcherUnhandledException += OnException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             _bootstrapper.Run();
+        }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var notificationService = _bootstrapper.Container.Resolve<INotificationService>();
+            notificationService.NotifyError(((Exception)e.ExceptionObject).Message);
         }
 
         private void OnException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            MessageBox.Show(e.Exception.ToString());
+            var notificationService = _bootstrapper.Container.Resolve<INotificationService>();
+            notificationService.NotifyError(e.Exception.Message);
         }
 
         protected override void OnExit(ExitEventArgs e)

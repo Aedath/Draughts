@@ -1,5 +1,6 @@
 ﻿using Draughts.App.Infrastructure.Services;
 using Draughts.App.Models;
+using Draughts.App.Views;
 using Prism.Events;
 using Prism.Regions;
 
@@ -9,11 +10,13 @@ namespace Draughts.App.ViewModels
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly IAccessService _accessService;
+        private readonly IRegionManager _regionManager;
 
-        public GameViewModel(IEventAggregator eventAggregator, IAccessService accessService)
+        public GameViewModel(IEventAggregator eventAggregator, IAccessService accessService, IRegionManager regionManager)
         {
             _eventAggregator = eventAggregator;
             _accessService = accessService;
+            _regionManager = regionManager;
         }
 
         private bool _isWhiteTurn;
@@ -63,6 +66,7 @@ namespace Draughts.App.ViewModels
         {
             base.OnNavigatedTo(navigationContext);
             _eventAggregator.GetEvent<PubSubEvent<TurnChangeEvent>>().Subscribe(OnTurnEnd);
+            _regionManager.RequestNavigate("BoardRegion", nameof(BoardView));
         }
 
         public override void OnNavigatedFrom(NavigationContext navigationContext)

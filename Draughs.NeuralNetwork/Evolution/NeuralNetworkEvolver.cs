@@ -18,6 +18,15 @@ namespace Draughs.NeuralNetwork.Evolution
             PopulateGenePool();
         }
 
+        public NeuralNetworkEvolver(int genePoolSize, int[] layers, int generations, double mutationRate, double[] network)
+        {
+            _genePoolSize = genePoolSize;
+            _layers = layers;
+            _generations = generations;
+            _mutationRate = mutationRate;
+            PopulateGenePool(network);
+        }
+
         internal IEnumerable<string> EvolvePlayer()
         {
             for (var i = 0; i < _generations; i++)
@@ -147,7 +156,6 @@ namespace Draughs.NeuralNetwork.Evolution
                     var gene1 = _genePool[i];
                     var gene2 = _genePool[j];
                     gameCounter++;
-                    //Debug.WriteLine($"Games played: {gameCounter}. Gene combination: {i} {j}");
                     Play(ref gene1, ref gene2);
                 });
             });
@@ -198,6 +206,14 @@ namespace Draughs.NeuralNetwork.Evolution
             for (var i = 0; i < _genePoolSize; i++)
             {
                 _genePool.Add(new Gene(_layers, i));
+            }
+        }
+
+        private void PopulateGenePool(double[] network)
+        {
+            for (var i = 0; i < _genePoolSize; i++)
+            {
+                _genePool.Add(new Gene(_layers, network));
             }
         }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Draughs.NeuralNetwork.Evolution
@@ -25,33 +24,24 @@ namespace Draughs.NeuralNetwork.Evolution
             }
         }
 
-        public Gene()
+        public Gene(int[] layers, double[] network)
         {
-            using (var reader = new StreamReader("../Network.txt"))
+            var node = 0;
+            for (var j = 1; j < layers.Count(); j++)
             {
-                string line;
-                var layerSizes = new List<int>();
-                while ((line = reader.ReadLine()) != "__")
+                var layer = new List<Neuron>();
+                for (var i = 0; i < layers[j]; i++)
                 {
-                    int.TryParse(line, out var layerSize);
-                    layerSizes.Add(layerSize);
-                }
-
-                for (var j = 1; j < layerSizes.Count; j++)
-                {
-                    var layer = new List<Neuron>();
-                    for (var i = 0; i < layerSizes[j]; i++)
+                    var neuron = new Neuron(layers[j - 1], 0, 0.1, 0.1);
+                    for (var k = 0; k < neuron.Weights.Count; k++)
                     {
-                        var neuron = new Neuron(layerSizes[j - 1], 0, 0.1, 0.1);
-                        for (var k = 0; k < neuron.Weights.Count; k++)
-                        {
-                            double.TryParse(reader.ReadLine(), out var weight);
-                            neuron.Weights[k] = weight;
-                        }
-                        layer.Add(neuron);
+                        var weight = network[node];
+                        neuron.Weights[k] = weight;
+                        node++;
                     }
-                    Network.Add(layer);
+                    layer.Add(neuron);
                 }
+                Network.Add(layer);
             }
         }
 

@@ -55,6 +55,7 @@ namespace Draughts.Access.Controllers
             {
                 Username = User.Identity.GetUserName(),
                 Email = User.Identity.GetUserName(),
+                IsAdmin = UserManager.IsInRole(User.Identity.GetUserId(), "admin"),
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin?.LoginProvider
             };

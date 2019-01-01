@@ -1,9 +1,11 @@
 ﻿using Draughs.NeuralNetwork;
 using Draughs.NeuralNetwork.Services;
 using Draughts.App.Infrastructure;
+using Draughts.App.Infrastructure.Services;
 using Draughts.App.Models;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -13,14 +15,21 @@ namespace Draughts.App.ViewModels
     internal class BoardViewModel : ViewModelBase
     {
         private bool _isWhiteTurn;
-        private readonly NeuralNetworkPlayer _blackPlayer;
+        private NeuralNetworkPlayer _blackPlayer;
 
-        public BoardViewModel(IEventAggregator eventAggregator)
+        public BoardViewModel(IEventAggregator eventAggregator, IAccessService accessService)
         {
             _eventAggregator = eventAggregator;
+            _accessService = accessService;
             SelectCommand = new DelegateCommand<Piece>(OnSelect);
+        }
+
+        public override async void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            base.OnNavigatedTo(navigationContext);
+            var latestNetwork = await _accessService.GetLatestNetwork();
             ChangeTurn();
-            _blackPlayer = EvolutionService.GetPlayer();
+            _blackPlayer = EvolutionService.GetPlayer(latestNetwork.Network);
         }
 
         private void OnSelect(Piece currentPiece)
@@ -497,6 +506,7 @@ namespace Draughts.App.ViewModels
         }
 
         private readonly IEventAggregator _eventAggregator;
+        private readonly IAccessService _accessService;
 
         public ICommand SelectCommand { get; set; }
     }

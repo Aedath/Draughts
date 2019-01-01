@@ -14,7 +14,7 @@ namespace Draughs.NeuralNetwork.Services
             _generations = generations;
         }
 
-        public IEnumerable<string> Evolve()
+        public IEnumerable<string> EvolveNew()
         {
             var evolver = new NeuralNetworkEvolver(_genePoolSize, new[] { 32, 40, 10, 1 }, _generations, 0.05);
             foreach (var evolution in evolver.EvolvePlayer())
@@ -24,9 +24,19 @@ namespace Draughs.NeuralNetwork.Services
             evolver.SaveBestGeneration();
         }
 
-        public static NeuralNetworkPlayer GetPlayer()
+        public IEnumerable<string> EvolveExisting(double[] network)
         {
-            return new NeuralNetworkPlayer(new Gene());
+            var evolver = new NeuralNetworkEvolver(_genePoolSize, new[] { 32, 40, 10, 1 }, _generations, 0.05, network);
+            foreach (var evolution in evolver.EvolvePlayer())
+            {
+                yield return evolution;
+            }
+            evolver.SaveBestGeneration();
+        }
+
+        public static NeuralNetworkPlayer GetPlayer(double[] network)
+        {
+            return new NeuralNetworkPlayer(new Gene(new[] { 32, 40, 10, 1 }, network));
         }
     }
 }

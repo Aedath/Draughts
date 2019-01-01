@@ -32,6 +32,7 @@ namespace Draughts.Access.Models
 
         public string LoginProvider { get; set; }
         public string Username { get; set; }
+        public bool IsAdmin { get; set; }
     }
 
     public class UserLoginInfoViewModel

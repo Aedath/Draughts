@@ -10,7 +10,7 @@
     xmlns:controls="clr-namespace:MaterialDesignExtensions.Controls;assembly=MaterialDesignExtensions"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     d:DesignHeight="300"
-    d:DesignWidth="300"
+    d:DesignWidth="400"
     xmlns:infra="clr-namespace:Draughts.App.Infrastructure"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
@@ -23,6 +23,16 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="20" IsEnabled="{Binding InProgress, Converter={StaticResource NotBoolConverter}}">
+            <GroupBox Header="Base Generation" Margin="10" VerticalAlignment="Top">
+                <StackPanel>
+                    <RadioButton IsChecked="True" GroupName="Generation" Content="New Generation" Margin="5"></RadioButton>
+                    <RadioButton GroupName="Generation" Content="Existing Generation" x:Name="ExistingGeneration" Margin="5"></RadioButton>
+                    <ComboBox ItemsSource="{Binding ExistingGenerations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedValue="{Binding SelectedGeneration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              IsEnabled="{Binding Path=IsChecked, ElementName=ExistingGeneration}">
+                    </ComboBox>
+                </StackPanel>
+            </GroupBox>
             <GroupBox Header="Gene Pool Size" Margin="10" VerticalAlignment="Top">
                 <controls:OversizedNumberSpinner Min="2" Max="500" Value="{Binding GenePoolSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </GroupBox>

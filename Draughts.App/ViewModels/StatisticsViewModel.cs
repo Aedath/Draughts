@@ -25,7 +25,8 @@ namespace Draughts.App.ViewModels
             var statistics = results
                 .GroupBy(x => x.Generation)
                 .Select(x => new StatisticsModel(x.Key,
-                    x.Count(r => r.Score == 1), x.Count(r => r.Score == 0)))
+                    x.Count(r => r.Score == 1),
+                    x.Count(r => r.Score == 0)))
                 .ToList();
 
             Statistics.AddRange(statistics);

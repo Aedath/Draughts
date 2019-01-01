@@ -15,22 +15,45 @@ namespace Draughts.Access.Controllers
         private readonly ApplicationDbContext _db = new ApplicationDbContext();
 
         // GET: api/NeuralNetworks
-        public IQueryable<NeuralNetwork> GetNeuralNetworks()
-        {
-            return _db.NeuralNetworks;
-        }
-
-        // GET: api/NeuralNetworks/5
         [ResponseType(typeof(NeuralNetwork))]
-        public async Task<IHttpActionResult> GetNeuralNetwork(int id)
+        public async Task<IHttpActionResult> GetNeuralNetwork()
         {
-            NeuralNetwork neuralNetwork = await _db.NeuralNetworks.FindAsync(id);
+            var neuralNetwork = await _db.NeuralNetworks
+                .OrderByDescending(x => x.Generation)
+                .FirstOrDefaultAsync();
             if (neuralNetwork == null)
             {
                 return NotFound();
             }
 
-            return Ok(neuralNetwork);
+            return Ok(neuralNetwork.ToViewModel());
+        }
+
+        // GET: api/NeuralNetworks/5
+        [ResponseType(typeof(NeuralNetwork))]
+        public async Task<IHttpActionResult> GetNeuralNetwork(int generation)
+        {
+            var neuralNetwork = await _db.NeuralNetworks
+                .OrderByDescending(x => x.Generation)
+                .FirstOrDefaultAsync(x => x.Generation == generation);
+            if (neuralNetwork == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(neuralNetwork.ToViewModel());
+        }
+
+        [ResponseType(typeof(int[]))]
+        [Route("api/NeuralNetworks/Generations")]
+        public async Task<IHttpActionResult> GetGenerations()
+        {
+            var generations = await _db.NeuralNetworks
+                .OrderByDescending(x => x.Generation)
+                .Select(x => x.Generation)
+                .ToListAsync();
+
+            return Ok(new { generations });
         }
 
         // PUT: api/NeuralNetworks/5

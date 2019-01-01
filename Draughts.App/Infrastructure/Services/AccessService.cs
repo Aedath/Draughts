@@ -23,6 +23,12 @@ namespace Draughts.App.Infrastructure.Services
         Task AddGameResult(int generation, int result);
 
         Task<List<GameResultViewModel>> GetGameResults();
+
+        Task<NeuralNetwork> GetLatestNetwork();
+
+        Task<List<int>> GetGenerations();
+
+        Task<NeuralNetwork> GetByGeneration(int generation);
     }
 
     internal class AccessService : IAccessService
@@ -79,6 +85,22 @@ namespace Draughts.App.Infrastructure.Services
         public async Task<List<GameResultViewModel>> GetGameResults()
         {
             return await GetAsync<List<GameResultViewModel>>("api/GameResults");
+        }
+
+        public async Task<NeuralNetwork> GetLatestNetwork()
+        {
+            return await GetAsync<NeuralNetwork>("api/NeuralNetworks");
+        }
+
+        public async Task<List<int>> GetGenerations()
+        {
+            var generations = await GetAsync<Generations>("/api/NeuralNetworks/Generations");
+            return generations.ExistingGenerations;
+        }
+
+        public async Task<NeuralNetwork> GetByGeneration(int generation)
+        {
+            return await GetAsync<NeuralNetwork>($"/api/NeuralNetworks/{generation}");
         }
 
         public async Task<UserInfo> GetUserInfo()
@@ -159,6 +181,12 @@ namespace Draughts.App.Infrastructure.Services
             [JsonProperty("error_description")]
             public string ErrorDescription { get; set; }
         }
+
+        private class Generations
+        {
+            [JsonProperty("generations")]
+            public List<int> ExistingGenerations { get; set; }
+        }
     }
 
     public class Token
@@ -183,5 +211,11 @@ namespace Draughts.App.Infrastructure.Services
     {
         public int Generation { get; set; }
         public int Score { get; set; }
+    }
+
+    public class NeuralNetwork
+    {
+        public int Generation { get; set; }
+        public double[] Network { get; set; }
     }
 }
