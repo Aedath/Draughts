@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Draughs.NeuralNetwork
 {
-    internal class PieceMovement
+    public static class PieceMovement
     {
-        internal List<List<int>> GetValidMoves(List<int> gameBoard, int player)
+        public static List<List<int>> GetValidMoves(List<int> gameBoard, int player)
         {
             var possibleMoves = new List<List<int>>();
-            for (int i = 0; i < gameBoard.Count; i++)
+            for (var i = 0; i < gameBoard.Count; i++)
             {
                 if (gameBoard[i] == player || gameBoard[i] == 2 * player)
                 {
@@ -33,26 +32,28 @@ namespace Draughs.NeuralNetwork
             return possibleMoves;
         }
 
-        private List<List<int>> MovePiece(List<int> gameBoard, int x, int y)
+        private static List<List<int>> MovePiece(List<int> gameBoard, int x, int y)
         {
-            var PossibleMoves = new List<List<int>> { };
+            var possibleMoves = new List<List<int>> { };
 
             if (gameBoard[8 * y + x] != -1)
             {
-                PossibleMoves.AddRange(MoveLeftUp(gameBoard, x, y));
-                PossibleMoves.AddRange(MoveRightUp(gameBoard, x, y));
+                possibleMoves.AddRange(MoveLeftUp(gameBoard, x, y));
+                possibleMoves.AddRange(MoveRightUp(gameBoard, x, y));
             }
 
-            if (gameBoard[8 * y + x] != 1)
+            if (gameBoard[8 * y + x] == 1)
             {
-                PossibleMoves.AddRange(MoveLeftDown(gameBoard, x, y));
-                PossibleMoves.AddRange(MoveRightDown(gameBoard, x, y));
+                return possibleMoves;
             }
 
-            return PossibleMoves;
+            possibleMoves.AddRange(MoveLeftDown(gameBoard, x, y));
+            possibleMoves.AddRange(MoveRightDown(gameBoard, x, y));
+
+            return possibleMoves;
         }
 
-        private List<List<int>> MoveRightDown(List<int> gameBoard, int x, int y)
+        private static List<List<int>> MoveRightDown(List<int> gameBoard, int x, int y)
         {
             var possibleMoves = new List<List<int>>();
 
@@ -88,7 +89,7 @@ namespace Draughs.NeuralNetwork
             return possibleMoves;
         }
 
-        private List<List<int>> MoveLeftDown(List<int> gameBoard, int x, int y)
+        private static List<List<int>> MoveLeftDown(List<int> gameBoard, int x, int y)
         {
             var possibleMoves = new List<List<int>>();
 
@@ -124,7 +125,7 @@ namespace Draughs.NeuralNetwork
             return possibleMoves;
         }
 
-        private List<List<int>> MoveRightUp(List<int> gameBoard, int x, int y)
+        private static List<List<int>> MoveRightUp(List<int> gameBoard, int x, int y)
         {
             var possibleMoves = new List<List<int>>();
 
@@ -160,7 +161,7 @@ namespace Draughs.NeuralNetwork
             return possibleMoves;
         }
 
-        private List<List<int>> MoveLeftUp(List<int> gameBoard, int x, int y)
+        private static List<List<int>> MoveLeftUp(List<int> gameBoard, int x, int y)
         {
             var possibleMoves = new List<List<int>>();
 
@@ -196,84 +197,90 @@ namespace Draughs.NeuralNetwork
             return possibleMoves;
         }
 
-        private List<List<int>> GetJumpBoard(List<int> gameBoard, int x, int y, int player)
+        private static List<List<int>> GetJumpBoard(List<int> gameBoard, int x, int y, int player)
         {
             var moves = new List<List<int>>();
             var jumps = GetJumps(gameBoard, x, y, player);
 
-            if (jumps.Any())
+            if (!jumps.Any())
             {
-                for (int i = 0; i < jumps.Count; i++)
-                {
-                    var newGameBoard = new List<int>(gameBoard);
-                    newGameBoard[jumps[i][2]] = newGameBoard[jumps[i][0]];
-                    newGameBoard[jumps[i][0]] = 0;
-                    newGameBoard[jumps[i][1]] = 0;
-                    
-                    if (jumps[i][2] / 8 == 0 && player == 1)
-                    {
-                        newGameBoard[jumps[i][2]] = 2;
-                    }
-                    else if (jumps[i][2] / 8 == 7 && player == -1)
-                    {
-                        newGameBoard[jumps[i][2]] = -2;
-                    }
+                return moves;
+            }
 
-                    var consequentJumps = GetJumpBoard(newGameBoard, jumps[i][2] / 8, jumps[i][2] % 8, player);
-                    if (consequentJumps.Any())
-                    {
-                        moves.AddRange(consequentJumps);
-                    }
-                    else
-                    {
-                        moves.Add(newGameBoard);
-                    }
+            foreach (var jump in jumps)
+            {
+                var newGameBoard = new List<int>(gameBoard);
+                newGameBoard[jump[2]] = newGameBoard[jump[0]];
+                newGameBoard[jump[0]] = 0;
+                newGameBoard[jump[1]] = 0;
+
+                switch (jump[2] / 8)
+                {
+                    case 0 when player == 1:
+                        newGameBoard[jump[2]] = 2;
+                        break;
+
+                    case 7 when player == -1:
+                        newGameBoard[jump[2]] = -2;
+                        break;
+                }
+
+                var consequentJumps = GetJumpBoard(newGameBoard, jump[2] / 8, jump[2] % 8, player);
+                if (consequentJumps.Any())
+                {
+                    moves.AddRange(consequentJumps);
+                }
+                else
+                {
+                    moves.Add(newGameBoard);
                 }
             }
 
             return moves;
         }
 
-        private List<List<int>> GetJumps(List<int> gameBoard, int x, int y, int player)
+        public static List<List<int>> GetJumps(List<int> gameBoard, int x, int y, int player)
         {
             var jumps = new List<List<int>>();
 
             if (gameBoard[8 * y + x] != -1)
             {
-                if ((y - 2 >= 0 && y - 2 < 8) && (x - 2 >= 0) && 
-                    (gameBoard[8 * (y - 1) + (x - 1)] == -player || 
-                    gameBoard[8 * (y - 1) + (x - 1)] == -2 * player) && 
+                if ((y - 2 >= 0 && y - 2 < 8) && (x - 2 >= 0) &&
+                    (gameBoard[8 * (y - 1) + (x - 1)] == -player ||
+                    gameBoard[8 * (y - 1) + (x - 1)] == -2 * player) &&
                     gameBoard[8 * (y - 2) + (x - 2)] == 0)
                 {
                     jumps.Add(new List<int> { 8 * y + x, 8 * (y - 1) + (x - 1), 8 * (y - (2)) + (x - 2) });
                 }
-                
-                if ((y - 2 >= 0 && y - 2 < 8) && (x + 2 < 8) && 
-                    (gameBoard[8 * (y - 1) + (x + 1)] == -player || 
-                    gameBoard[8 * (y - 1) + (x + 1)] == -2 * player) && 
+
+                if ((y - 2 >= 0 && y - 2 < 8) && (x + 2 < 8) &&
+                    (gameBoard[8 * (y - 1) + (x + 1)] == -player ||
+                    gameBoard[8 * (y - 1) + (x + 1)] == -2 * player) &&
                     gameBoard[8 * (y - 2) + (x + 2)] == 0)
                 {
                     jumps.Add(new List<int> { 8 * y + x, 8 * (y - 1) + (x + 1), 8 * (y - (2)) + (x + 2) });
                 }
             }
 
-            if (gameBoard[8 * y + x] != 1)
+            if (gameBoard[8 * y + x] == 1)
             {
-                if ((y + 2 >= 0 && y + 2 < 8) && (x - 2 >= 0) && 
-                    (gameBoard[8 * (y + 1) + (x - 1)] == -player || 
-                    gameBoard[8 * (y + 1) + (x - 1)] == -2 * player) && 
-                    gameBoard[8 * (y + 2) + (x - 2)] == 0)
-                {
-                    jumps.Add(new List<int> { 8 * y + x, 8 * (y + 1) + (x - 1), 8 * (y + 2) + (x - 2) });
-                }
-                
-                if ((y + 2 >= 0 && y + 2 < 8) && (x + 2 < 8) && 
-                    (gameBoard[8 * (y + 1) + (x + 1)] == -player || 
-                    gameBoard[8 * (y + 1) + (x + 1)] == -2 * player) && 
-                    gameBoard[8 * (y + 2) + (x + 2)] == 0)
-                {
-                    jumps.Add(new List<int> { 8 * y + x, 8 * (y + 1) + (x + 1), 8 * (y + 2) + (x + 2) });
-                }
+                return jumps;
+            }
+
+            if ((y + 2 >= 0 && y + 2 < 8) && (x - 2 >= 0) &&
+                (gameBoard[8 * (y + 1) + (x - 1)] == -player ||
+                 gameBoard[8 * (y + 1) + (x - 1)] == -2 * player) &&
+                gameBoard[8 * (y + 2) + (x - 2)] == 0)
+            {
+                jumps.Add(new List<int> { 8 * y + x, 8 * (y + 1) + (x - 1), 8 * (y + 2) + (x - 2) });
+            }
+
+            if ((y + 2 >= 0 && y + 2 < 8) && (x + 2 < 8) &&
+                (gameBoard[8 * (y + 1) + (x + 1)] == -player ||
+                 gameBoard[8 * (y + 1) + (x + 1)] == -2 * player) &&
+                gameBoard[8 * (y + 2) + (x + 2)] == 0)
+            {
+                jumps.Add(new List<int> { 8 * y + x, 8 * (y + 1) + (x + 1), 8 * (y + 2) + (x + 2) });
             }
 
             return jumps;

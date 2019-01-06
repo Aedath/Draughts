@@ -11,7 +11,7 @@ namespace Draughs.NeuralNetwork.Evolution
         {
             var neuronSeed = new Random(seed);
             Inputs = new List<double>();
-            for (int i = 0; i < layerSize; i++)
+            for (var i = 0; i < layerSize; i++)
             {
                 Weights.Add(neuronSeed.NextDouble() * (max - min) + min);
                 Inputs.Add(0);

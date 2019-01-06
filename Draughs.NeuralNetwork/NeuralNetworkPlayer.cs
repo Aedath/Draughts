@@ -6,9 +6,8 @@ namespace Draughs.NeuralNetwork
 {
     public class NeuralNetworkPlayer : IPlayer
     {
-        private int _maxDepth = 4;
+        private const int MaxDepth = 4;
         public Gene Gene;
-        private PieceMovement _piece = new PieceMovement();
 
         public NeuralNetworkPlayer(Gene gene)
         {
@@ -22,29 +21,20 @@ namespace Draughs.NeuralNetwork
 
         private List<int> Move(List<int> gameBoard, int player, int depth)
         {
-            var moves = _piece.GetValidMoves(gameBoard, player);
+            var moves = PieceMovement.GetValidMoves(gameBoard, player);
             var scores = new List<double>();
 
-            if (depth >= _maxDepth || EndGame(gameBoard) || !moves.Any())
+            if (depth >= MaxDepth || EndGame(gameBoard) || !moves.Any())
             {
                 return gameBoard;
             }
-            else
+
+            foreach (var move in moves)
             {
-                foreach (var move in moves)
-                {
-                    scores.Add(GetScores(Move(move, -player, depth + 1)));
-                }
+                scores.Add(GetScores(Move(move, -player, depth + 1)));
             }
 
-            if (depth % 2 != 0)
-            {
-                return moves[scores.IndexOf(scores.Max())];
-            }
-            else
-            {
-                return moves[scores.IndexOf(scores.Min())];
-            }
+            return depth % 2 != 0 ? moves[scores.IndexOf(scores.Max())] : moves[scores.IndexOf(scores.Min())];
         }
 
         private double GetScores(List<int> gameBoard)
@@ -52,22 +42,14 @@ namespace Draughs.NeuralNetwork
             return Gene.GetNetworkResult(CompressBoard(gameBoard))[0];
         }
 
-        private List<double> CompressBoard(List<int> gameBoard)
+        private static List<double> CompressBoard(List<int> gameBoard)
         {
-            var compressedBoard = new List<double>();
-
-            for (int i = 0; i < gameBoard.Count; i++)
-            {
-                if (((i / 8) % 2 == 0 && i % 2 == 0) || ((i / 8) % 2 != 0 && i % 2 != 0))
-                {
-                    compressedBoard.Add(gameBoard[i]);
-                }
-            }
-
-            return compressedBoard;
+            return gameBoard
+                .Where((t, i) => i / 8 % 2 == 0 && i % 2 == 0 || i / 8 % 2 != 0 && i % 2 != 0)
+                .Select(t => (double)t).ToList();
         }
 
-        private bool EndGame(List<int> gameBoard)
+        private static bool EndGame(List<int> gameBoard)
         {
             return gameBoard.Count(x => x < 0) == 0 || gameBoard.Count(x => x > 0) == 0;
         }

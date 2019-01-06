@@ -63,7 +63,7 @@ namespace Draughs.NeuralNetwork.Evolution
                         sum += neuron.Weights[i] * input[i];
                     }
 
-                    sum = Sygmoid(sum, false);
+                    sum = Sygmoid(sum);
                     neuron.Output = sum;
                 }
 
@@ -83,9 +83,9 @@ namespace Draughs.NeuralNetwork.Evolution
             return output;
         }
 
-        private static double Sygmoid(double x, bool derivative)
+        private static double Sygmoid(double x)
         {
-            return derivative ? x * (1 - x) : 1 / (1 + Math.Exp(-x));
+            return 1 / (1 + Math.Exp(-x));
         }
     }
 }

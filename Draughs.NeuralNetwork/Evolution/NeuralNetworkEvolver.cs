@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,32 +26,14 @@ namespace Draughs.NeuralNetwork.Evolution
             PopulateGenePool(network);
         }
 
-        internal IEnumerable<string> EvolvePlayer()
+        internal IEnumerable<Gene> EvolvePlayer()
         {
             for (var i = 0; i < _generations; i++)
             {
-                Console.WriteLine($"----------------------\n{i}");
-                var s = new Stopwatch();
-                s.Restart();
                 EvaluateGenePool();
                 BreedNextGeneration();
-                s.Stop();
-                var returnText =
-                    $"{i + 1}/{_generations} generation evolved in {s.Elapsed:g}.\n ETA {GetEta(s.Elapsed, _generations - i - 1):g}";
-                yield return returnText;
+                yield return GetBestGene();
             }
-            EvaluateGenePool();
-        }
-
-        private static TimeSpan GetEta(TimeSpan lastTimeSpan, int iterationsLeft)
-        {
-            var eta = new TimeSpan();
-            for (var i = 0; i < iterationsLeft; i++)
-            {
-                eta = eta.Add(lastTimeSpan);
-            }
-
-            return eta;
         }
 
         private void BreedNextGeneration()
@@ -67,9 +48,16 @@ namespace Draughs.NeuralNetwork.Evolution
             _genePool = new List<Gene>(newGen);
         }
 
-        public void SaveBestGeneration()
+        public Gene GetBestGene()
         {
             var bestGene = _genePool.OrderByDescending(x => x.Score).ToList()[0];
+
+            return bestGene;
+        }
+
+        public void SaveBestGeneration()
+        {
+            var bestGene = GetBestGene();
             using (var writer = new StreamWriter("../Network.txt", false) { AutoFlush = true })
             {
                 foreach (var layer in _layers)
@@ -93,40 +81,31 @@ namespace Draughs.NeuralNetwork.Evolution
         private Gene Crossbreed(Gene gene1, Gene gene2)
         {
             var child = new Gene(_layers, 1);
-            var layerCount = 0;
-            foreach (var layer in gene1.Network)
+            for (var layer = 0; layer < child.Network.Count; layer++)
             {
-                var neuronCount = 0;
-                foreach (var neuron in layer)
+                for (var neuron = 0; neuron < child.Network[layer].Count; neuron++)
                 {
-                    var weightCount = 0;
-                    foreach (var weight in neuron.Weights)
+                    for (var weight = 0; weight < child.Network[layer][neuron].Weights.Count; weight++)
                     {
+                        var weight1 = gene1.Network[layer][neuron].Weights[weight];
+                        var weight2 = gene2.Network[layer][neuron].Weights[weight];
                         if (_random.NextDouble() < _mutationRate)
                         {
-                            SetWeight(child, layerCount, neuronCount, weightCount, RandomWeight(0.9, -0.9));
+                            child.Network[layer][neuron].Weights[weight] = RandomWeight(0.9, -0.9);
                         }
                         else if (_random.NextDouble() < 0.5)
                         {
-                            SetWeight(child, layerCount, neuronCount, weightCount, gene1.Network[layerCount][neuronCount].Weights[weightCount]);
+                            child.Network[layer][neuron].Weights[weight] = weight1;
                         }
                         else
                         {
-                            SetWeight(child, layerCount, neuronCount, weightCount, gene2.Network[layerCount][neuronCount].Weights[weightCount]);
+                            child.Network[layer][neuron].Weights[weight] = weight2;
                         }
-                        weightCount++;
                     }
-                    neuronCount++;
                 }
-                layerCount++;
             }
 
             return child;
-        }
-
-        private static void SetWeight(Gene gene, int layerId, int neuronId, int weightId, double weight)
-        {
-            gene.Network[layerId][neuronId].Weights[weightId] = weight;
         }
 
         private double RandomWeight(double max, double min)
@@ -143,7 +122,6 @@ namespace Draughs.NeuralNetwork.Evolution
 
         private void EvaluateGenePool()
         {
-            var gameCounter = 0;
             Parallel.For(0, _genePoolSize - 1, (i) =>
             {
                 Parallel.For(0, _genePoolSize - 1, (j) =>
@@ -155,7 +133,6 @@ namespace Draughs.NeuralNetwork.Evolution
 
                     var gene1 = _genePool[i];
                     var gene2 = _genePool[j];
-                    gameCounter++;
                     Play(ref gene1, ref gene2);
                 });
             });
@@ -191,13 +168,13 @@ namespace Draughs.NeuralNetwork.Evolution
             var game = new Game(player1, player2);
             if (game.Draw)
             {
-                gene1.Score -= 1;
-                gene2.Score -= 1;
+                gene1.Score -= 10;
+                gene2.Score -= 10;
             }
             else
             {
-                ((NeuralNetworkPlayer)game.Winner).Gene.Score += 1;
-                ((NeuralNetworkPlayer)game.Loser).Gene.Score -= 2;
+                ((NeuralNetworkPlayer)game.Winner).Gene.Score += game.PlayerPeaces(game.Winner) + (game.PlayerQueens(game.Winner) * 2) + 10;
+                ((NeuralNetworkPlayer)game.Loser).Gene.Score -= 10;
             }
         }
 

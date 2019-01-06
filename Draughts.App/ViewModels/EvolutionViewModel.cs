@@ -3,8 +3,10 @@ using Draughts.App.Infrastructure.Services;
 using Prism.Commands;
 using Prism.Regions;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Draughts.App.ViewModels
@@ -55,17 +57,11 @@ namespace Draughts.App.ViewModels
             set => SetProperty(ref _selectedGeneration, value);
         }
 
-        private string _text = "...";
         private int _genePoolSize = 2;
         private int _generations = 2;
         private bool _inProgress;
         private int _selectedGeneration = -1;
-
-        public string Text
-        {
-            get => _text;
-            set => SetProperty(ref _text, value);
-        }
+        private bool _localEvoltion;
 
         public DelegateCommand ToggleProgressCommand { get; }
 
@@ -100,22 +96,23 @@ namespace Draughts.App.ViewModels
         private void EvolveNew()
         {
             var service = new EvolutionService(GenePoolSize, Generations);
-            foreach (var evolutionText in service.EvolveNew())
+            List<double> lastGene;
+            foreach (var evolution in service.EvolveNew())
             {
-                Text = evolutionText;
+                lastGene = evolution.Network.SelectMany(n => n.SelectMany(l => l.Weights)).ToList();
                 GenerationsLeft--;
-            };
+            }
+
             InProgress = false;
         }
 
         private void EvolveExisting(double[] network)
         {
             var service = new EvolutionService(GenePoolSize, Generations);
-            foreach (var evolutionText in service.EvolveExisting(network))
+            foreach (var evolution in service.EvolveExisting(network))
             {
-                Text = evolutionText;
                 GenerationsLeft--;
-            };
+            }
             InProgress = false;
         }
 
