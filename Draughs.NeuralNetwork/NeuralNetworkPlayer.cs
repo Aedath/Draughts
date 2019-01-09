@@ -7,11 +7,11 @@ namespace Draughs.NeuralNetwork
     public class NeuralNetworkPlayer : IPlayer
     {
         private const int MaxDepth = 4;
-        public Gene Gene;
+        public Evolution.NeuralNetwork Network;
 
-        public NeuralNetworkPlayer(Gene gene)
+        public NeuralNetworkPlayer(Evolution.NeuralNetwork gene)
         {
-            Gene = gene;
+            Network = gene;
         }
 
         public List<int> Move(List<int> gameBoard, int player)
@@ -39,7 +39,7 @@ namespace Draughs.NeuralNetwork
 
         private double GetScores(List<int> gameBoard)
         {
-            return Gene.GetNetworkResult(CompressBoard(gameBoard))[0];
+            return Network.GetNetworkResult(CompressBoard(gameBoard))[0];
         }
 
         private static List<double> CompressBoard(List<int> gameBoard)

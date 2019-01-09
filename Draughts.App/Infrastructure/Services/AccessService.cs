@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Draughts.App.Infrastructure.Services
@@ -22,13 +23,14 @@ namespace Draughts.App.Infrastructure.Services
 
         Task AddGameResult(int generation, int result);
 
-        Task<List<GameResultViewModel>> GetGameResults();
+        Task<List<GameResult>> GetGameResults();
 
         Task<NeuralNetwork> GetLatestNetwork();
 
         Task<List<int>> GetGenerations();
 
         Task<NeuralNetwork> GetByGeneration(int generation);
+        Task AddNeuralNetwork(int generation, double[] networkData);
     }
 
     internal class AccessService : IAccessService
@@ -82,9 +84,9 @@ namespace Draughts.App.Infrastructure.Services
             await PostAsync("api/GameResults", content);
         }
 
-        public async Task<List<GameResultViewModel>> GetGameResults()
+        public async Task<List<GameResult>> GetGameResults()
         {
-            return await GetAsync<List<GameResultViewModel>>("api/GameResults");
+            return await GetAsync<List<GameResult>>("api/GameResults");
         }
 
         public async Task<NeuralNetwork> GetLatestNetwork()
@@ -113,6 +115,16 @@ namespace Draughts.App.Infrastructure.Services
         {
             await PostAsync("api/Account/Logout", new Dictionary<string, string>());
             _client.DefaultRequestHeaders.Authorization = null;
+        }
+
+        public async Task AddNeuralNetwork(int generation, double[] networkData)
+        {
+            var network = new NeuralNetwork
+            {
+                Generation = generation,
+                Network = networkData
+            };
+            await PostAsync("api/NeuralNetworks", network);
         }
 
         private async Task<T> GetAsync<T>(string path)
@@ -152,6 +164,17 @@ namespace Draughts.App.Infrastructure.Services
             }
 
             return JsonConvert.DeserializeObject<T>(result);
+        }
+        private async Task PostAsync<T>(string path, T data)
+        {
+            var content = new StringContent(JsonConvert.SerializeObject(data));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var response = await _client.PostAsync(path, content);
+            var result = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                HandleBadStatusCode(result);
+            }
         }
 
         private static void HandleBadStatusCode(string content)
@@ -207,7 +230,7 @@ namespace Draughts.App.Infrastructure.Services
         public string Email { get; set; }
     }
 
-    public class GameResultViewModel
+    public class GameResult
     {
         public int Generation { get; set; }
         public int Score { get; set; }

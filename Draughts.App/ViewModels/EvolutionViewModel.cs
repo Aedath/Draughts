@@ -2,10 +2,8 @@
 using Draughts.App.Infrastructure.Services;
 using Prism.Commands;
 using Prism.Regions;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,12 +11,10 @@ namespace Draughts.App.ViewModels
 {
     internal class EvolutionViewModel : ViewModelBase
     {
-        private readonly IRegionManager _regionManager;
         private readonly IAccessService _accessService;
 
-        public EvolutionViewModel(IRegionManager regionManager, IAccessService accessService)
+        public EvolutionViewModel(IAccessService accessService)
         {
-            _regionManager = regionManager;
             _accessService = accessService;
             ToggleProgressCommand = new DelegateCommand(async () => await OnToggleProgress());
         }
@@ -57,11 +53,10 @@ namespace Draughts.App.ViewModels
             set => SetProperty(ref _selectedGeneration, value);
         }
 
-        private int _genePoolSize = 2;
+        private int _genePoolSize = 20;
         private int _generations = 2;
         private bool _inProgress;
         private int _selectedGeneration = -1;
-        private bool _localEvoltion;
 
         public DelegateCommand ToggleProgressCommand { get; }
 
@@ -77,42 +72,41 @@ namespace Draughts.App.ViewModels
 
         private async Task Evolve()
         {
-            if (File.Exists("../Network.txt"))
-            {
-                File.Copy("../Network.txt", $"../Network {DateTime.Now:yyyyMMddhhmmss}.txt");
-                File.Delete("../Network.txt");
-            }
-
             if (SelectedGeneration == -1)
             {
-                await Task.Run(() => EvolveNew());
+                await Task.Run(async ()=> await EvolveNew());
                 return;
             }
 
             var network = await _accessService.GetByGeneration(SelectedGeneration);
-            await Task.Run(() => EvolveExisting(network.Network));
+            await Task.Run(async () => await EvolveExisting(network.Network));
         }
 
-        private void EvolveNew()
+        private async Task EvolveNew()
         {
             var service = new EvolutionService(GenePoolSize, Generations);
-            List<double> lastGene;
+            List<double> lastGene = new List<double>();
             foreach (var evolution in service.EvolveNew())
             {
                 lastGene = evolution.Network.SelectMany(n => n.SelectMany(l => l.Weights)).ToList();
                 GenerationsLeft--;
             }
 
+            await _accessService.AddNeuralNetwork(Generations, lastGene.ToArray());
+
             InProgress = false;
         }
 
-        private void EvolveExisting(double[] network)
+        private async Task EvolveExisting(double[] network)
         {
             var service = new EvolutionService(GenePoolSize, Generations);
+            List<double> lastGene = new List<double>();
             foreach (var evolution in service.EvolveExisting(network))
             {
+                lastGene = evolution.Network.SelectMany(n => n.SelectMany(l => l.Weights)).ToList();
                 GenerationsLeft--;
             }
+            await _accessService.AddNeuralNetwork(Generations + SelectedGeneration, lastGene.ToArray());
             InProgress = false;
         }
 

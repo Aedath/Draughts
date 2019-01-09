@@ -5,27 +5,27 @@ namespace Draughs.NeuralNetwork.Services
 {
     public class EvolutionService
     {
-        private readonly int _genePoolSize;
+        private readonly int _populationSize;
         private readonly int _generations;
 
-        public EvolutionService(int genePoolSize, int generations)
+        public EvolutionService(int populationSize, int generations)
         {
-            _genePoolSize = genePoolSize;
+            _populationSize = populationSize;
             _generations = generations;
         }
 
-        public IEnumerable<Gene> EvolveNew()
+        public IEnumerable<Evolution.NeuralNetwork> EvolveNew()
         {
-            var evolver = new NeuralNetworkEvolver(_genePoolSize, new[] { 32, 40, 10, 1 }, _generations, 0.05);
+            var evolver = new GeneticAlgorithm(_populationSize, new[] { 32, 40, 10, 1 }, _generations, 0.05, 0.5);
             foreach (var evolution in Evolve(evolver))
             {
                 yield return evolution;
             }
         }
 
-        public IEnumerable<Gene> EvolveExisting(double[] network)
+        public IEnumerable<Evolution.NeuralNetwork> EvolveExisting(double[] network)
         {
-            var evolver = new NeuralNetworkEvolver(_genePoolSize, new[] { 32, 40, 10, 1 }, _generations, 0.05, network);
+            var evolver = new GeneticAlgorithm(_populationSize, new[] { 32, 40, 10, 1 }, _generations, 0.05, 0.5, network);
             foreach (var evolution in Evolve(evolver))
             {
                 yield return evolution;
@@ -39,11 +39,11 @@ namespace Draughs.NeuralNetwork.Services
             _stop = true;
         }
 
-        private IEnumerable<Gene> Evolve(NeuralNetworkEvolver evolver)
+        private IEnumerable<Evolution.NeuralNetwork> Evolve(GeneticAlgorithm evolver)
         {
             try
             {
-                foreach (var evolution in evolver.EvolvePlayer())
+                foreach (var evolution in evolver.Evolve())
                 {
                     yield return evolution;
                     if (_stop)
@@ -60,7 +60,7 @@ namespace Draughs.NeuralNetwork.Services
 
         public static NeuralNetworkPlayer GetPlayer(double[] network)
         {
-            return new NeuralNetworkPlayer(new Gene(new[] { 32, 40, 10, 1 }, network));
+            return new NeuralNetworkPlayer(new Evolution.NeuralNetwork(new[] { 32, 40, 10, 1 }, network));
         }
     }
 }

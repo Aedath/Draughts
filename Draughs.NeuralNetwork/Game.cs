@@ -7,10 +7,10 @@ namespace Draughs.NeuralNetwork
     {
         private readonly Dictionary<int, IPlayer> _players;
         public List<int> Board { get; private set; }
-        private int _curentPlayer = 1;
+        private int _currentPlayer = 1;
         private int _moves;
-        private bool _isGameEnd => !Board.Any(x => x < 0) || !Board.Any(x => x > 0);
-        private bool _noValidMoves => !PieceMovement.GetValidMoves(Board, _curentPlayer).Any();
+        private bool IsGameEnd => !Board.Any(x => x < 0) || !Board.Any(x => x > 0);
+        private bool NoValidMoves => !PieceMovement.GetValidMoves(Board, _currentPlayer).Any();
 
         public bool Draw { get; private set; }
         public IPlayer Winner { get; private set; }
@@ -36,21 +36,21 @@ namespace Draughs.NeuralNetwork
 
         private void StartGame()
         {
-            while (!_isGameEnd && !_noValidMoves && _moves <= 150)
+            while (!IsGameEnd && !NoValidMoves && _moves <= 150)
             {
-                Board = _players[_curentPlayer].Move(Board, _curentPlayer);
-                _curentPlayer *= -1;
+                Board = _players[_currentPlayer].Move(Board, _currentPlayer);
+                _currentPlayer *= -1;
                 _moves++;
             }
 
-            if (_noValidMoves)
+            if (NoValidMoves)
             {
-                _curentPlayer *= -1;
+                _currentPlayer *= -1;
             }
 
             Draw = _moves >= 150;
-            Winner = _players[_curentPlayer];
-            Loser = _players[-_curentPlayer];
+            Winner = _players[_currentPlayer];
+            Loser = _players[-_currentPlayer];
         }
 
         private static List<int> CreateBoard()

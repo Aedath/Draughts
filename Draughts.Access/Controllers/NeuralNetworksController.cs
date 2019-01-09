@@ -92,19 +92,24 @@ namespace Draughts.Access.Controllers
         }
 
         // POST: api/NeuralNetworks
-        [Authorize(Roles = "admin")]
         [ResponseType(typeof(NeuralNetwork))]
-        public async Task<IHttpActionResult> PostNeuralNetwork(NeuralNetwork neuralNetwork)
+        public async Task<IHttpActionResult> PostNeuralNetwork(NeuralNetworkViewModel neuralNetwork)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _db.NeuralNetworks.Add(neuralNetwork);
+            var network = new NeuralNetwork
+            {
+                Generation = neuralNetwork.Generation,
+                Network = string.Join("\n", neuralNetwork.Network)
+            };
+
+            _db.NeuralNetworks.Add(network);
             await _db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = neuralNetwork.NeuralNetworkId }, neuralNetwork);
+            return CreatedAtRoute("DefaultApi", new { id = network.NeuralNetworkId }, neuralNetwork);
         }
 
         // DELETE: api/NeuralNetworks/5

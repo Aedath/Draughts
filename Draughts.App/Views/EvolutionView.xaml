@@ -2,58 +2,111 @@
     x:Class="Draughts.App.Views.EvolutionView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:MaterialDesignExtensions.Controls;assembly=MaterialDesignExtensions"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:infra="clr-namespace:Draughts.App.Infrastructure"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:viewmodels="clr-namespace:Draughts.App.ViewModels"
     d:DataContext="{d:DesignInstance Type=viewmodels:EvolutionViewModel}"
-    xmlns:controls="clr-namespace:MaterialDesignExtensions.Controls;assembly=MaterialDesignExtensions"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     d:DesignHeight="300"
     d:DesignWidth="400"
-    xmlns:infra="clr-namespace:Draughts.App.Infrastructure"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <Grid VerticalAlignment="Center">
         <Grid.Resources>
-            <infra:NotBoolConverter x:Key="NotBoolConverter"></infra:NotBoolConverter>
+            <infra:NotBoolConverter x:Key="NotBoolConverter" />
         </Grid.Resources>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="20" IsEnabled="{Binding InProgress, Converter={StaticResource NotBoolConverter}}">
-            <GroupBox Header="Base Generation" Margin="10" VerticalAlignment="Top">
+        <TextBlock
+            HorizontalAlignment="Center"
+            FontWeight="Bold"
+            Foreground="Crimson"
+            TextAlignment="Center">
+            <InlineUIContainer BaselineAlignment="Center">
+                <materialDesign:PackIcon
+                    Width="20"
+                    Height="20"
+                    Margin="5"
+                    Kind="Warning" />
+            </InlineUIContainer>
+            <Run Text="Warning!" />
+            <LineBreak />
+            <Run Text="Depending on settings you select and your computers capacity," />
+            <LineBreak />
+            <Run Text="this process may take a very long time!" />
+        </TextBlock>
+        <StackPanel
+            Grid.Row="1"
+            Margin="20"
+            HorizontalAlignment="Center"
+            IsEnabled="{Binding InProgress, Converter={StaticResource NotBoolConverter}}"
+            Orientation="Horizontal">
+            <GroupBox
+                Margin="10"
+                VerticalAlignment="Top"
+                Header="Base Generation">
                 <StackPanel>
-                    <RadioButton IsChecked="True" GroupName="Generation" Content="New Generation" Margin="5"></RadioButton>
-                    <RadioButton GroupName="Generation" Content="Existing Generation" x:Name="ExistingGeneration" Margin="5"></RadioButton>
-                    <ComboBox ItemsSource="{Binding ExistingGenerations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              SelectedValue="{Binding SelectedGeneration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              IsEnabled="{Binding Path=IsChecked, ElementName=ExistingGeneration}">
-                    </ComboBox>
+                    <RadioButton
+                        Margin="5"
+                        Content="New Generation"
+                        GroupName="Generation"
+                        IsChecked="True" />
+                    <RadioButton
+                        x:Name="ExistingGeneration"
+                        Margin="5"
+                        Content="Existing Generation"
+                        GroupName="Generation" />
+                    <ComboBox
+                        IsEnabled="{Binding Path=IsChecked, ElementName=ExistingGeneration}"
+                        ItemsSource="{Binding ExistingGenerations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedValue="{Binding SelectedGeneration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="Gene Pool Size" Margin="10" VerticalAlignment="Top">
-                <controls:OversizedNumberSpinner Min="2" Max="500" Value="{Binding GenePoolSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <GroupBox
+                Margin="10"
+                VerticalAlignment="Top"
+                Header="Population Size">
+                <controls:OversizedNumberSpinner
+                    Margin="6.5"
+                    Max="500"
+                    Min="2"
+                    Value="{Binding GenePoolSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </GroupBox>
-            <GroupBox Header=" Generations  " Margin="10" VerticalAlignment="Top">
-                <controls:OversizedNumberSpinner Min="2" Max="500" Value="{Binding Generations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <GroupBox
+                Margin="10"
+                VerticalAlignment="Top"
+                Header=" Generations  ">
+                <controls:OversizedNumberSpinner
+                    Margin="6.5"
+                    Max="500"
+                    Min="2"
+                    Value="{Binding Generations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </GroupBox>
         </StackPanel>
-        <materialDesign:Badged Grid.Row="1" HorizontalAlignment="Center" Badge="{Binding GenerationsLeft}">
-            <Button VerticalAlignment="Top"
-                    Style="{StaticResource MaterialDesignFloatingActionButton}"
-                    Command="{Binding ToggleProgressCommand}"
-                    materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding InProgress}"
-                    materialDesign:ButtonProgressAssist.Value="-1"
-                    materialDesign:ButtonProgressAssist.IsIndeterminate="True">
-                <materialDesign:PackIcon Height="30" Width="30">
+        <materialDesign:Badged
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            Badge="{Binding GenerationsLeft}">
+            <Button
+                VerticalAlignment="Top"
+                materialDesign:ButtonProgressAssist.IsIndeterminate="True"
+                materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding InProgress}"
+                materialDesign:ButtonProgressAssist.Value="-1"
+                Command="{Binding ToggleProgressCommand}"
+                Style="{StaticResource MaterialDesignFloatingActionButton}">
+                <materialDesign:PackIcon Width="30" Height="30">
                     <materialDesign:PackIcon.Style>
                         <Style TargetType="materialDesign:PackIcon">
-                            <Setter Property="Kind" Value="Play"></Setter>
+                            <Setter Property="Kind" Value="Play" />
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding InProgress}" Value="True">
-                                    <Setter Property="Kind" Value="Stop"></Setter>
+                                    <Setter Property="Kind" Value="Stop" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>

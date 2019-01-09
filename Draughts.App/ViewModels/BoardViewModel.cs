@@ -17,6 +17,10 @@ namespace Draughts.App.ViewModels
         private bool _isWhiteTurn;
         private NeuralNetworkPlayer _blackPlayer;
 
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IAccessService _accessService;
+
+
         public BoardViewModel(IEventAggregator eventAggregator, IAccessService accessService)
         {
             _eventAggregator = eventAggregator;
@@ -24,12 +28,17 @@ namespace Draughts.App.ViewModels
             SelectCommand = new DelegateCommand<Piece>(OnSelect);
         }
 
+        public ICommand SelectCommand { get; set; }
+
+        private int _networkGeneration;
+
         public override async void OnNavigatedTo(NavigationContext navigationContext)
         {
             base.OnNavigatedTo(navigationContext);
             var latestNetwork = await _accessService.GetLatestNetwork();
-            ChangeTurn();
+            _networkGeneration = latestNetwork.Generation;
             _blackPlayer = EvolutionService.GetPlayer(latestNetwork.Network);
+            ChangeTurn();
         }
 
         private void OnSelect(Piece currentPiece)
@@ -201,13 +210,14 @@ namespace Draughts.App.ViewModels
 
         private void PublishTurnEnd(bool isGameEnd, int blackPieces, int whitePieces)
         {
-            _eventAggregator.GetEvent<PubSubEvent<TurnChangeEvent>>().Publish(
-                new TurnChangeEvent
+            _eventAggregator.GetEvent<PubSubEvent<TurnChangeEventData>>().Publish(
+                new TurnChangeEventData
                 {
                     IsWhiteTurn = IsWhiteTurn,
                     IsGameEnd = isGameEnd,
                     BlackCheckers = blackPieces,
-                    WhiteCheckers = whitePieces
+                    WhiteCheckers = whitePieces,
+                    Generation = _networkGeneration
                 });
         }
 
@@ -504,10 +514,5 @@ namespace Draughts.App.ViewModels
 
             IsWhiteTurn = true;
         }
-
-        private readonly IEventAggregator _eventAggregator;
-        private readonly IAccessService _accessService;
-
-        public ICommand SelectCommand { get; set; }
     }
 }

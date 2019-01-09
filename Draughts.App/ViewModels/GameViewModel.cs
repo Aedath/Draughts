@@ -43,7 +43,7 @@ namespace Draughts.App.ViewModels
             set => SetProperty(ref _blackResult, value);
         }
 
-        private async void OnTurnEnd(TurnChangeEvent turnChange)
+        private async void OnTurnEnd(TurnChangeEventData turnChange)
         {
             IsWhiteTurn = turnChange.IsWhiteTurn;
             if (!turnChange.IsGameEnd)
@@ -59,20 +59,20 @@ namespace Draughts.App.ViewModels
                 BlackResult++;
             }
 
-            await _accessService.AddGameResult(500, turnChange.BlackCheckers == 0 ? 1 : 0);
+            await _accessService.AddGameResult(turnChange.Generation, turnChange.BlackCheckers == 0 ? 1 : 0);
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             base.OnNavigatedTo(navigationContext);
-            _eventAggregator.GetEvent<PubSubEvent<TurnChangeEvent>>().Subscribe(OnTurnEnd);
+            _eventAggregator.GetEvent<PubSubEvent<TurnChangeEventData>>().Subscribe(OnTurnEnd);
             _regionManager.RequestNavigate("BoardRegion", nameof(BoardView));
         }
 
         public override void OnNavigatedFrom(NavigationContext navigationContext)
         {
             base.OnNavigatedTo(navigationContext);
-            _eventAggregator.GetEvent<PubSubEvent<TurnChangeEvent>>().Unsubscribe(OnTurnEnd);
+            _eventAggregator.GetEvent<PubSubEvent<TurnChangeEventData>>().Unsubscribe(OnTurnEnd);
         }
     }
 }

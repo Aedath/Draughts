@@ -104,7 +104,8 @@ namespace Draughts.App.ViewModels.Account
             {
                 InProgress = true;
                 await _accessService.Register(Username, Email, Password, ConfirmPassword);
-                _notificationService.NotifySuccess("Registration was successful. You can sign in now.");
+                _notificationService.NotifySuccess("Registration was successful.");
+                await SignIn();
             }
             catch (Exception ex)
             {

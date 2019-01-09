@@ -14,14 +14,14 @@ namespace Draughts.App.Models
 
         public int X
         {
-            get { return _x; }
-            set { SetProperty(ref _x, value); }
+            get => _x;
+            set => SetProperty(ref _x, value);
         }
 
         public int Y
         {
-            get { return _y; }
-            set { SetProperty(ref _y, value); }
+            get => _y;
+            set => SetProperty(ref _y, value);
         }
     }
 }

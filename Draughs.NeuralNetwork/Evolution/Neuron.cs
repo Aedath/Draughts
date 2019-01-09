@@ -1,26 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Draughs.NeuralNetwork.Evolution
 {
     public class Neuron
     {
-        public List<double> Weights = new List<double>();
+        public Neuron()
+        {
+        }
 
         public Neuron(int layerSize, int seed, double min, double max)
         {
             var neuronSeed = new Random(seed);
-            Inputs = new List<double>();
             for (var i = 0; i < layerSize; i++)
             {
                 Weights.Add(neuronSeed.NextDouble() * (max - min) + min);
-                Inputs.Add(0);
             }
             Weights.Add(neuronSeed.NextDouble());
-            Inputs.Add(0);
         }
 
-        public List<double> Inputs { get; internal set; }
+        public List<double> Weights { get; internal set; } = new List<double>();
         public double Output { get; internal set; }
+
+        public void SetInput(List<double> input)
+        {
+            var sum = input.Select((t, i) => Weights[i] * t).Sum();
+
+            Output = Sygmoid(sum);
+        }
+
+        private static double Sygmoid(double x)
+        {
+            return 1 / (1 + Math.Exp(-x));
+        }
     }
 }
