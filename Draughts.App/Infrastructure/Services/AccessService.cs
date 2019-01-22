@@ -179,11 +179,18 @@ namespace Draughts.App.Infrastructure.Services
 
         private static void HandleBadStatusCode(string content)
         {
-            if (content.Contains("error_description"))
+            try
             {
-                throw new Exception(DeserializeError(content));
+                if (content.Contains("error_description"))
+                {
+                    throw new Exception(DeserializeError(content));
+                }
+                throw new Exception(DeserializeModelState(content));
             }
-            throw new Exception(DeserializeModelState(content));
+            catch
+            {
+                throw new Exception(content);
+            }
         }
 
         private static string DeserializeError(string content)

@@ -34,6 +34,18 @@ namespace Draughs.NeuralNetwork
                 scores.Add(GetScores(Move(move, -player, depth + 1)));
             }
 
+            //var bestMove = depth % 2 != 0 ? moves[scores.IndexOf(scores.Max())] : moves[scores.IndexOf(scores.Min())];
+
+            //var board = string.Empty;
+            //foreach (var move in bestMove)
+            //{
+            //    board += move == -1 ? "o" : move == 1 ? "x" : move == 0 ? "■" : move == -2 ? "O" : "X" ;
+            //    if (board.Count(x => x.ToString() != "\n") % 8 == 0)
+            //    {
+            //        board += "\n";
+            //    }
+            //}
+
             return depth % 2 != 0 ? moves[scores.IndexOf(scores.Max())] : moves[scores.IndexOf(scores.Min())];
         }
 

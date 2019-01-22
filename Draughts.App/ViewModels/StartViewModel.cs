@@ -7,6 +7,7 @@ namespace Draughts.App.ViewModels
     internal class StartViewModel : ViewModelBase
     {
         private readonly IRegionManager _regionManager;
+        public DelegateCommand DemoGameCommand { get; }
         public DelegateCommand StartNewGameCommand { get; }
         public DelegateCommand EvolveNetworkCommand { get; }
         public DelegateCommand StatisticsCommand { get; }
@@ -14,6 +15,8 @@ namespace Draughts.App.ViewModels
         public StartViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
+            DemoGameCommand = new DelegateCommand(() =>
+                _regionManager.RequestNavigate("MainRegion", nameof(DemoView)));
             StartNewGameCommand = new DelegateCommand(() =>
                 _regionManager.RequestNavigate("MainRegion", nameof(GameView)));
             EvolveNetworkCommand = new DelegateCommand(() =>

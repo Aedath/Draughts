@@ -225,7 +225,7 @@ namespace Draughs.NeuralNetwork
                         break;
                 }
 
-                var consequentJumps = GetJumpBoard(newGameBoard, jump[2] / 8, jump[2] % 8, player);
+                var consequentJumps = GetJumpBoard(newGameBoard, jump[2] % 8, jump[2] / 8, player);
                 if (consequentJumps.Any())
                 {
                     moves.AddRange(consequentJumps);

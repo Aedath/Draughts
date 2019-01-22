@@ -20,6 +20,7 @@ namespace Draughts.App
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
             DispatcherUnhandledException += OnException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             _bootstrapper.Run();
@@ -28,12 +29,22 @@ namespace Draughts.App
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var notificationService = _bootstrapper.Container.Resolve<INotificationService>();
+            if (notificationService is null)
+            {
+                MessageBox.Show(((Exception) e.ExceptionObject).Message);
+                return;
+            }
             notificationService.NotifyError(((Exception)e.ExceptionObject).Message);
         }
 
         private void OnException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             var notificationService = _bootstrapper.Container.Resolve<INotificationService>();
+            if (notificationService is null)
+            {
+                MessageBox.Show(e.Exception.Message);
+                return;
+            }
             notificationService.NotifyError(e.Exception.Message);
         }
 

@@ -113,20 +113,23 @@ namespace Draughs.NeuralNetwork.Evolution
 
         private void EvaluatePopulation()
         {
-            Parallel.For(0, _populationSize - 1, (i) =>
+            //Parallel.For(0, _populationSize - 1, (i) =>
+            //{
+            for (var i = 0; i < _populationSize - 1; i++)
             {
                 Parallel.For(0, _populationSize - 1, (j) =>
-                {
-                    if (i == j)
                     {
-                        return;
-                    }
+                        if (i == j)
+                        {
+                            return;
+                        }
 
-                    var individual1 = _population[i];
-                    var individual2 = _population[j];
-                    CalculateFitness(ref individual1, ref individual2);
-                });
-            });
+                        var individual1 = _population[i];
+                        var individual2 = _population[j];
+                        CalculateFitness(ref individual1, ref individual2);
+                    }); 
+            }
+            //});
 
             RankPopulation();
         }
